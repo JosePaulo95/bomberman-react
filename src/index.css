@@ -22,7 +22,7 @@
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  place-items: left;
   height: 100vh;
   overflow: hidden;
 }

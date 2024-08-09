@@ -34,7 +34,12 @@ function load() {
       src: "./tile_0007.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
+    {
+      alias: "bg_01",
+      src: "./bg_museu.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
   ])
 
-  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b"])
+  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "bg_01"])
 }
