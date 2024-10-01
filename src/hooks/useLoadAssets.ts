@@ -39,7 +39,12 @@ function load() {
       src: "./ground_04.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
+    {
+      alias: "player_0",
+      src: "./player_01.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
   ])
 
-  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0"])
+  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "player_0"])
 }
