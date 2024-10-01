@@ -4,6 +4,7 @@ import { InputLayer } from "@/components/pixi/InputLayer";
 import { PlayerLayer } from "@/components/pixi/PlayerLayer";
 import { Pixi } from "@/helpers/Pixi";
 import { useGameStore } from "@/store/useGameStore";
+import { useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 export function Play() {
@@ -18,13 +19,29 @@ export function Play() {
     [1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1],
   ];
-  const player = {
+  const playerInitialState = {
     x: 1,
     y: 3
-  }
+  };
+  const [player, setPlayer] = useState(playerInitialState);
 
   const handleSpriteClick = (dir: string) => {
-    console.log("Sprite clicada!");
+    setPlayer((prevPlayer) => {
+      switch (dir) {
+        case "up":
+          return { ...prevPlayer, y: prevPlayer.y - 1 }; // Move para cima
+        case "down":
+          return { ...prevPlayer, y: prevPlayer.y + 1 }; // Move para baixo
+        case "left":
+          return { ...prevPlayer, x: prevPlayer.x - 1 }; // Move para a esquerda
+        case "right":
+          return { ...prevPlayer, x: prevPlayer.x + 1 }; // Move para a direita
+        default:
+          return prevPlayer; // Se a direção for inválida, não faz nada
+      }
+    });
+
+    console.log(`Sprite clicada! Movimento: ${dir}`);
   };
 
   return (
