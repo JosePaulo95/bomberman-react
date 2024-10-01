@@ -1,4 +1,4 @@
-export const ROUND_DURATION = 600_000
+export const ROUND_DURATION = 6000_000
 
 // player movement
 export const DISTANCE_PER_SECOND = 100

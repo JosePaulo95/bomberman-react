@@ -14,6 +14,8 @@ type GameActions = {
   ready: () => void
   moveLeft: () => void
   moveRight: () => void
+  moveUp: () => void
+  moveDown: () => void
   stop: () => void
 }
 
@@ -63,6 +65,16 @@ Rune.initLogic({
       game.players[playerId].state = "walking"
       game.players[playerId].direction.x = 1
     },
+    moveUp: (_, { game, playerId }) => {
+      game.players[playerId].facing = "left"
+      game.players[playerId].state = "walking"
+      game.players[playerId].direction.x = -1
+    },
+    moveDown: (_, { game, playerId }) => {
+      game.players[playerId].facing = "right"
+      game.players[playerId].state = "walking"
+      game.players[playerId].direction.x = 1
+    },
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
       game.players[playerId].direction.x = 0
@@ -91,7 +103,7 @@ Rune.initLogic({
   update: ({ game }) => {
     if (game.currentScreen === "play") {
       game.timeLeft = ROUND_DURATION - (Rune.gameTime() - game.gameStartedAt)
-      if (game.timeLeft <= 0) {
+      if (1>2 && game.timeLeft <= 0) {
         game.currentScreen = "gameOver"
         Rune.gameOver({
           players: Object.keys(game.players).reduce(
