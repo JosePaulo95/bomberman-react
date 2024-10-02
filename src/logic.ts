@@ -1,6 +1,6 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer"
 
-import { ACCELERATION, DISTANCE_PER_SECOND, MOVEMENT_THRESHOLD, ROUND_DURATION } from "./constants"
+import { ROUND_DURATION } from "./constants"
 import { GameScreen, Player } from "./types"
 
 export type GameState = {
@@ -32,7 +32,7 @@ Rune.initLogic({
         (acc, id, i) => ({
           ...acc,
           [id]: {
-            position: { x: 20 + i * 50, y: 0 },
+            position: { x: 1, y: 3 },
             direction: { x: 0, y: 0 },
             velocity: { x: 0, y: 0 },
             facing: "left",
@@ -56,25 +56,17 @@ Rune.initLogic({
       }
     },
     moveLeft: (_, { game, playerId }) => {
-      game.players[playerId].facing = "left"
-      game.players[playerId].state = "walking"
-      game.players[playerId].direction.x = -1
+      game.players[playerId].position.x -= 1;
     },
     moveRight: (_, { game, playerId }) => {
-      game.players[playerId].facing = "right"
-      game.players[playerId].state = "walking"
-      game.players[playerId].direction.x = 1
+      game.players[playerId].position.x += 1; // Move para a direita
     },
     moveUp: (_, { game, playerId }) => {
-      game.players[playerId].facing = "left"
-      game.players[playerId].state = "walking"
-      game.players[playerId].direction.x = -1
+      game.players[playerId].position.y -= 1; // Move para cima
     },
     moveDown: (_, { game, playerId }) => {
-      game.players[playerId].facing = "right"
-      game.players[playerId].state = "walking"
-      game.players[playerId].direction.x = 1
-    },
+      game.players[playerId].position.y += 1; // Move para baixo
+    },    
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
       game.players[playerId].direction.x = 0
@@ -115,21 +107,6 @@ Rune.initLogic({
           ),
           delayPopUp: true,
         })
-      }
-
-      // player movement
-      for (const playerId in game.players) {
-        const player = game.players[playerId]
-        const currentVelocity = {
-          x: ACCELERATION * player.direction.x + (1 - ACCELERATION) * player.velocity.x,
-          y: ACCELERATION * player.direction.y + (1 - ACCELERATION) * player.velocity.y,
-        }
-        if (Math.abs(currentVelocity.x) < MOVEMENT_THRESHOLD) {
-          currentVelocity.x = 0
-        }
-        player.velocity = currentVelocity
-        player.position.x += player.velocity.x * (DISTANCE_PER_SECOND / 10)
-        player.position.y += player.velocity.y * (DISTANCE_PER_SECOND / 10)
       }
     }
   },
