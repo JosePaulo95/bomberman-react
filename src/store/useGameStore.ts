@@ -12,14 +12,16 @@ type State = {
   interpolators: {
     timeLeft: Interpolator<number>
     players: PlayersInterpolators
-  }
+  },
+  terrainMap: number[][]
 }
 
 export const useGameStore = create<State>()(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   subscribeWithSelector((set, get) => ({
-    game: { players: {}, currentScreen: "lobby", timeLeft: 0, gameStartedAt: 0 },
+    game: { players: {}, currentScreen: "lobby", timeLeft: 0, gameStartedAt: 0, terrainMap: [] },
     playerDetails: {},
     interpolators: { timeLeft: Rune.interpolator(), players: {} },
+    terrainMap: []
   })),
 )

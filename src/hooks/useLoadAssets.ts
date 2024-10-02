@@ -36,7 +36,17 @@ function load() {
     },
     {
       alias: "ground_0",
-      src: "./ground_04.png",
+      src: "./ground_06.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "block_0",
+      src: "./block_08.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "crate_0",
+      src: "./crate_02.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
     {
@@ -51,5 +61,5 @@ function load() {
     },
   ])
 
-  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "player_0", "input_0"])
+  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "input_0"])
 }

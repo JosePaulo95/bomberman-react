@@ -8,6 +8,7 @@ export type GameState = {
   currentScreen: GameScreen
   timeLeft: number
   gameStartedAt: number
+  terrainMap: number[][]
 }
 
 type GameActions = {
@@ -45,6 +46,13 @@ Rune.initLogic({
       currentScreen: "lobby",
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
+      terrainMap: [
+        [0, 2, 0, 0, 0],
+        [0, 1, 0, 1, 0],
+        [0, 2, 2, 0, 0],
+        [0, 1, 0, 1, 2],
+        [0, 0, 0, 2, 0],
+      ]
     }
   },
   actions: {
@@ -56,17 +64,42 @@ Rune.initLogic({
       }
     },
     moveLeft: (_, { game, playerId }) => {
-      game.players[playerId].position.x -= 1;
+      const player = game.players[playerId];
+      const newX = player.position.x - 1;
+      
+      // Verificar se o novo local no terreno é 0 (pisável)
+      if (game.terrainMap[player.position.y]?.[newX] === 0) {
+        player.position.x = newX;
+      }
     },
     moveRight: (_, { game, playerId }) => {
-      game.players[playerId].position.x += 1; // Move para a direita
+      const player = game.players[playerId];
+      const newX = player.position.x + 1;
+      
+      // Verificar se o novo local no terreno é 0 (pisável)
+      if (game.terrainMap[player.position.y]?.[newX] === 0) {
+        player.position.x = newX;
+      }
     },
     moveUp: (_, { game, playerId }) => {
-      game.players[playerId].position.y -= 1; // Move para cima
+      const player = game.players[playerId];
+      const newY = player.position.y - 1;
+      
+      // Verificar se o novo local no terreno é 0 (pisável)
+      if (game.terrainMap[newY]?.[player.position.x] === 0) {
+        player.position.y = newY;
+      }
     },
     moveDown: (_, { game, playerId }) => {
-      game.players[playerId].position.y += 1; // Move para baixo
-    },    
+      const player = game.players[playerId];
+      const newY = player.position.y + 1;
+      
+      // Verificar se o novo local no terreno é 0 (pisável)
+      if (game.terrainMap[newY]?.[player.position.x] === 0) {
+        player.position.y = newY;
+      }
+    },
+    
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
       game.players[playerId].direction.x = 0

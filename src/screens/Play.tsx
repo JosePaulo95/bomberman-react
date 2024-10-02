@@ -10,15 +10,7 @@ export function Play() {
   const yourPlayerId = useGameStore((state) => state.yourPlayerId);
   const player = yourPlayerId && useGameStore((state) => state.game.players[yourPlayerId].position)
   const players = useGameStore((state) => state.game.players)
-  
-  // Matriz 3x3 representando o piso
-  const floor = [
-    [1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1],
-  ];
+  const terrainMap = useGameStore((state) => state.game.terrainMap)
 
   const handleSpriteClick = (dir: string) => {
     switch (dir) {
@@ -43,7 +35,7 @@ export function Play() {
   return (
     <div>
       <Pixi.In>
-        <GroundLayer floor={floor} />
+        { terrainMap && <GroundLayer floor={terrainMap} />}
 
         {
           player && 
