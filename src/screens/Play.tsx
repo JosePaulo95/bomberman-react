@@ -42,10 +42,21 @@ export function Play() {
             <>
               <PlayerLayer data={player}/>
               
-              <InputLayer x={player.x} y={player.y - 1} onClick={() => handleSpriteClick("up")} />
-              <InputLayer x={player.x} y={player.y + 1} onClick={() => handleSpriteClick("down")} />
-              <InputLayer x={player.x - 1} y={player.y} onClick={() => handleSpriteClick("left")} />
-              <InputLayer x={player.x + 1} y={player.y} onClick={() => handleSpriteClick("right")} />
+              {terrainMap[player.y - 1]?.[player.x] === 0 && (
+                <InputLayer x={player.x} y={player.y - 1} onClick={() => handleSpriteClick("up")} />
+              )}
+              
+              {terrainMap[player.y + 1]?.[player.x] === 0 && (
+                <InputLayer x={player.x} y={player.y + 1} onClick={() => handleSpriteClick("down")} />
+              )}
+              
+              {terrainMap[player.y]?.[player.x - 1] === 0 && (
+                <InputLayer x={player.x - 1} y={player.y} onClick={() => handleSpriteClick("left")} />
+              )}
+              
+              {terrainMap[player.y]?.[player.x + 1] === 0 && (
+                <InputLayer x={player.x + 1} y={player.y} onClick={() => handleSpriteClick("right")} />
+              )}
               
             </>
         }
