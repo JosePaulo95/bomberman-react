@@ -9,6 +9,7 @@ export function Play() {
   const playerIds = useGameStore(useShallow((state) => Object.keys(state.game.players)));
   const yourPlayerId = useGameStore((state) => state.yourPlayerId);
   const player = yourPlayerId && useGameStore((state) => state.game.players[yourPlayerId].position)
+  const players = useGameStore((state) => state.game.players)
   
   // Matriz 3x3 representando o piso
   const floor = [
@@ -53,8 +54,16 @@ export function Play() {
               <InputLayer x={player.x} y={player.y + 1} onClick={() => handleSpriteClick("down")} />
               <InputLayer x={player.x - 1} y={player.y} onClick={() => handleSpriteClick("left")} />
               <InputLayer x={player.x + 1} y={player.y} onClick={() => handleSpriteClick("right")} />
+              
             </>
         }
+
+        {Object.keys(players)
+        .filter((id) => id !== yourPlayerId) // Filtra os outros jogadores
+        .map((id) => {
+          const otherPlayer = players[id].position;
+          return <PlayerLayer key={id} data={otherPlayer} />;
+        })}
       </Pixi.In>
     </div>
   );
