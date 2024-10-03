@@ -1,8 +1,7 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer"
 
 import { ROUND_DURATION } from "./constants"
-import { initBombsMap } from "./helpers/Bombs"
-import { GameScreen, Player } from "./types"
+import { Bomb, GameScreen, Player } from "./types"
 
 export type GameState = {
   players: Record<PlayerId, Player>
@@ -10,7 +9,7 @@ export type GameState = {
   timeLeft: number
   gameStartedAt: number
   terrainMap: number[][]
-  bombsMap: number[][]
+  bombsMap: Bomb[]
 }
 
 type GameActions = {
@@ -19,6 +18,7 @@ type GameActions = {
   moveRight: () => void
   moveUp: () => void
   moveDown: () => void
+  placeBomb: () => void
   stop: () => void
 }
 
@@ -35,7 +35,7 @@ Rune.initLogic({
         (acc, id, i) => ({
           ...acc,
           [id]: {
-            position: { x: 0, y: 0 },
+            position: { x: 1, y: 1 },
             direction: { x: 0, y: 0 },
             velocity: { x: 0, y: 0 },
             facing: "left",
@@ -55,7 +55,14 @@ Rune.initLogic({
         [0, 1, 0, 1, 2],
         [0, 0, 0, 2, 0],
       ],
-      bombsMap: initBombsMap(5,5)
+      bombsMap: [
+        {
+          pos: {
+            x: 2,
+            y: 2
+          }
+        }
+      ]
     }
   },
   actions: {
@@ -102,7 +109,15 @@ Rune.initLogic({
         player.position.y = newY;
       }
     },
-    
+    placeBomb: (_, { game, playerId }) => {
+      const playerPos = game.players[playerId].position;
+      game.bombsMap.push({
+        pos: {
+          x: playerPos.x,
+          y: playerPos.y,
+        }
+      })
+    },
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
       game.players[playerId].direction.x = 0

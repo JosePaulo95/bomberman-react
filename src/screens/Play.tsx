@@ -33,6 +33,9 @@ export function Play() {
     }
   };
   
+  const handlePlaceBombClick = () => {
+    Rune.actions.placeBomb();
+  }
 
   return (
     <div>
@@ -43,6 +46,7 @@ export function Play() {
           player && 
             <>
               <PlayerLayer data={player}/>
+              <InputLayer x={player.x} y={player.y} onClick={() => handlePlaceBombClick()} />
               
               {terrainMap[player.y - 1]?.[player.x] === 0 && (
                 <InputLayer x={player.x} y={player.y - 1} onClick={() => handleSpriteClick("up")} />
@@ -59,7 +63,6 @@ export function Play() {
               {terrainMap[player.y]?.[player.x + 1] === 0 && (
                 <InputLayer x={player.x + 1} y={player.y} onClick={() => handleSpriteClick("right")} />
               )}
-              
             </>
         }
 

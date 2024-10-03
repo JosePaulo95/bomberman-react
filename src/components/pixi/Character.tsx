@@ -1,6 +1,6 @@
 import { Texture } from "@pixi/core"
 import { AnimatedSprite, useTick } from "@pixi/react"
-import { useId, useMemo, useRef } from "react"
+import { useId, useRef } from "react"
 import { PlayerId } from "rune-games-sdk"
 
 import { Html } from "@/helpers/Html"
@@ -15,7 +15,7 @@ export function Character({ playerId, model }: { playerId: PlayerId; model: Char
   const lastPosition = useRef([Infinity, 0])
   const id = useId()
 
-  const textures = useMemo(() => [Texture.from(`character_${model}_a`), Texture.from(`character_${model}_b`)], [model])
+  const textures = [Texture.from(`character_${model}_a`), Texture.from(`character_${model}_b`)]
 
   useTick(() => {
     if (!spriteRef.current || !htmlRef.current) {

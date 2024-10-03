@@ -30,5 +30,5 @@ export enum CharacterModel {
 }
 
 export type Bomb = {
-  
+  pos: Vector
 }
