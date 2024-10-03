@@ -1,6 +1,7 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer"
 
 import { ROUND_DURATION } from "./constants"
+import { initBombsMap } from "./helpers/Bombs"
 import { GameScreen, Player } from "./types"
 
 export type GameState = {
@@ -9,6 +10,7 @@ export type GameState = {
   timeLeft: number
   gameStartedAt: number
   terrainMap: number[][]
+  bombsMap: number[][]
 }
 
 type GameActions = {
@@ -26,7 +28,7 @@ declare global {
 
 Rune.initLogic({
   minPlayers: 1,
-  maxPlayers: 4,
+  maxPlayers: 1,
   setup: (allPlayerIds): GameState => {
     return {
       players: allPlayerIds.reduce(
@@ -52,7 +54,8 @@ Rune.initLogic({
         [0, 2, 2, 0, 0],
         [0, 1, 0, 1, 2],
         [0, 0, 0, 2, 0],
-      ]
+      ],
+      bombsMap: initBombsMap(5,5)
     }
   },
   actions: {

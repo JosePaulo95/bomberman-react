@@ -28,3 +28,7 @@ export enum CharacterModel {
   PinkGuy,
   YellowGuy,
 }
+
+export type Bomb = {
+  
+}

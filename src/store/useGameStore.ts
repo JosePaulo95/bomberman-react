@@ -19,7 +19,7 @@ type State = {
 export const useGameStore = create<State>()(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   subscribeWithSelector((set, get) => ({
-    game: { players: {}, currentScreen: "lobby", timeLeft: 0, gameStartedAt: 0, terrainMap: [] },
+    game: { players: {}, currentScreen: "lobby", timeLeft: 0, gameStartedAt: 0, terrainMap: [], bombsMap: [] },
     playerDetails: {},
     interpolators: { timeLeft: Rune.interpolator(), players: {} },
     terrainMap: []

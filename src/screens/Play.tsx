@@ -1,3 +1,4 @@
+import { BombsLayer } from "@/components/pixi/BombsLayer";
 import { GroundLayer } from "@/components/pixi/GroundLayer"; // Importando o novo componente
 import { InputLayer } from "@/components/pixi/InputLayer";
 import { PlayerLayer } from "@/components/pixi/PlayerLayer";
@@ -11,6 +12,7 @@ export function Play() {
   const player = yourPlayerId && useGameStore((state) => state.game.players[yourPlayerId].position)
   const players = useGameStore((state) => state.game.players)
   const terrainMap = useGameStore((state) => state.game.terrainMap)
+  const bombsMap = useGameStore((state) => state.game.bombsMap)
 
   const handleSpriteClick = (dir: string) => {
     switch (dir) {
@@ -36,7 +38,7 @@ export function Play() {
     <div>
       <Pixi.In>
         { terrainMap && <GroundLayer floor={terrainMap} />}
-
+        { bombsMap && <BombsLayer data={bombsMap} />}
         {
           player && 
             <>
