@@ -36,17 +36,20 @@ function load() {
     },
     {
       alias: "ground_0",
-      src: "./ground_06.png",
+      // src: "./ground_06.png",
+      src: "./(16)ground_1.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
     {
       alias: "block_0",
-      src: "./block_08.png",
+      // src: "./block_08.png",
+      src: "./(16)block_0.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
     {
       alias: "crate_0",
-      src: "./crate_02.png",
+      // src: "./crate_02.png",
+      src: "./(16)crate_0.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
     {

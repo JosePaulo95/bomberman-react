@@ -23,10 +23,10 @@ const getTextureForTile = (tileValue: number): Texture => {
 
 // Componente GroundLayer
 export const GroundLayer: React.FC<GroundLayerProps> = ({ floor }) => {
-  const tileSize = 64; // Tamanho do tile
+  const tileSize = 16; // Tamanho do tile
 
   return (
-    <Container scale={1} position={{ x: 0, y: 0 }}>
+    <Container scale={3} position={{ x: 0, y: 0 }}>
       {floor.map((row, rowIndex) =>
         row.map((tile, colIndex) => (
           <Sprite

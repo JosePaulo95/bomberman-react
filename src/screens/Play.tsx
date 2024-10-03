@@ -1,6 +1,4 @@
-import { BombsLayer } from "@/components/pixi/BombsLayer";
 import { GroundLayer } from "@/components/pixi/GroundLayer"; // Importando o novo componente
-import { InputLayer } from "@/components/pixi/InputLayer";
 import { PlayerLayer } from "@/components/pixi/PlayerLayer";
 import { Pixi } from "@/helpers/Pixi";
 import { useGameStore } from "@/store/useGameStore";
@@ -38,7 +36,7 @@ export function Play() {
     <div>
       <Pixi.In>
         { terrainMap && <GroundLayer floor={terrainMap} />}
-        { bombsMap && <BombsLayer data={bombsMap} />}
+        {/* { bombsMap && <BombsLayer data={bombsMap} />}
         {
           player && 
             <>
@@ -61,7 +59,7 @@ export function Play() {
               )}
               
             </>
-        }
+        } */}
 
         {Object.keys(players)
         .filter((id) => id !== yourPlayerId) // Filtra os outros jogadores
