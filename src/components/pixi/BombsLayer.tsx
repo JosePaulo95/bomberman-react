@@ -26,7 +26,7 @@ export const BombsLayer: React.FC<BombsLayerProps> = ({ data }) => {
           tile > 0 && ( // Verifica se o valor de 'tile' é maior que 0
             <AnimatedSprite
               key={`${rowIndex}-${colIndex}`}
-              position={{ x: (colIndex * tileSize), y: (rowIndex * tileSize) }}
+              position={{ x: (colIndex * tileSize), y: ((rowIndex-1) * tileSize) }}
               textures={getAnimationFrames(tile)} // Passa os frames para a animação
               animationSpeed={0.05} // Velocidade da animação
               isPlaying={true} // Começa a tocar a animação automaticamente
