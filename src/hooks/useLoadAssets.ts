@@ -54,12 +54,14 @@ function load() {
     },
     {
       alias: "player_0",
-      src: "./player_01.png",
+      // src: "./player_01.png",
+      src: "./(16)player_0.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
     {
       alias: "input_0",
-      src: "./environment_03.png",
+      // src: "./environment_03.png",
+      src: "./explosion_1.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
     {

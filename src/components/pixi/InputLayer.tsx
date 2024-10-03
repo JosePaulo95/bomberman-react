@@ -1,6 +1,6 @@
 import { Html } from "@/helpers/Html";
 import { Texture } from "@pixi/core";
-import { Sprite } from "@pixi/react";
+import { Container, Sprite } from "@pixi/react";
 import React from "react";
 
 // Definindo os tipos das props
@@ -13,15 +13,15 @@ interface InputLayerProps {
 export const InputLayer: React.FC<InputLayerProps> = ({ onClick, x, y }) => {
   // Carregar a textura (pode ser personalizada conforme o contexto)
   const inputTexture = Texture.from(`input_0`); // Exemplo de textura
-  const tileSize = 64;
-
+  const tileSize = 16;
+  const scale = 3
   // Estilo para o botão ocupar toda a área da sprite
   const buttonStyle = {
     position: "absolute" as const,
-    left: `${x * tileSize}px`,
-    top: `${y * tileSize}px`,
-    width: `${tileSize}px`,
-    height: `${tileSize}px`,
+    left: `${x * scale * tileSize}px`,
+    top: `${y * scale * tileSize}px`,
+    width: `${tileSize*scale}px`,
+    height: `${tileSize*scale}px`,
     background: "transparent",
     border: "none",
     cursor: "pointer",
@@ -29,7 +29,7 @@ export const InputLayer: React.FC<InputLayerProps> = ({ onClick, x, y }) => {
   };
 
   return (
-    <>
+    <Container scale={scale} position={{ x: 0, y: 0 }}>
       <Sprite
         texture={inputTexture}
         position={{ x: x * tileSize, y: y * tileSize }} // Posiciona no grid
@@ -38,6 +38,6 @@ export const InputLayer: React.FC<InputLayerProps> = ({ onClick, x, y }) => {
       <Html.In>
         <button style={buttonStyle} onClick={onClick}></button>
       </Html.In>
-    </>
+    </Container>
   );
 };

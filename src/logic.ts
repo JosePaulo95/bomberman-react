@@ -35,7 +35,7 @@ Rune.initLogic({
         (acc, id, i) => ({
           ...acc,
           [id]: {
-            position: { x: 1, y: 3 },
+            position: { x: 0, y: 0 },
             direction: { x: 0, y: 0 },
             velocity: { x: 0, y: 0 },
             facing: "left",

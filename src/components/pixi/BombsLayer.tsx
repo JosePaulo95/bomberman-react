@@ -20,15 +20,15 @@ export const BombsLayer: React.FC<BombsLayerProps> = ({ data }) => {
   const tileSize = 16; // Tamanho do tile
 
   return (
-    <Container scale={2} position={{ x: 0, y: 0 }}>
+    <Container scale={3} position={{ x: 0, y: 0 }}>
       {data.map((row, rowIndex) =>
         row.map((tile, colIndex) => (
           tile > 0 && ( // Verifica se o valor de 'tile' é maior que 0
             <AnimatedSprite
               key={`${rowIndex}-${colIndex}`}
-              position={{ x: (colIndex * tileSize)+tileSize/4, y: (rowIndex * tileSize)-tileSize/4 }}
+              position={{ x: (colIndex * tileSize), y: (rowIndex * tileSize) }}
               textures={getAnimationFrames(tile)} // Passa os frames para a animação
-              animationSpeed={0.1} // Velocidade da animação
+              animationSpeed={0.05} // Velocidade da animação
               isPlaying={true} // Começa a tocar a animação automaticamente
               scale={1}
             />
