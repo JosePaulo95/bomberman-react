@@ -1,7 +1,8 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer"
 
 import { ROUND_DURATION } from "./constants"
-import { Bomb, GameScreen, Player } from "./types"
+import { createExplosions } from "./helpers/Bombs"
+import { Bomb, Explosion, GameScreen, Player } from "./types"
 
 export type GameState = {
   players: Record<PlayerId, Player>
@@ -10,6 +11,7 @@ export type GameState = {
   gameStartedAt: number
   terrainMap: number[][]
   bombsMap: Bomb[]
+  explosions: Explosion[]
 }
 
 type GameActions = {
@@ -55,14 +57,15 @@ Rune.initLogic({
         [0, 1, 0, 1, 2],
         [0, 0, 0, 2, 0],
       ],
-      bombsMap: [
-        {
-          pos: {
-            x: 2,
-            y: 2
-          }
-        }
-      ]
+      bombsMap: [],
+      explosions: [{
+        pos: {
+          x: 4,
+          y: 4,
+        },
+        createdAt: Rune.gameTime(),
+        duration: 5
+      }],
     }
   },
   actions: {
@@ -111,11 +114,15 @@ Rune.initLogic({
     },
     placeBomb: (_, { game, playerId }) => {
       const playerPos = game.players[playerId].position;
+      
       game.bombsMap.push({
+        timeToExplode: 2000,
+        placedAt: Rune.gameTime(),
         pos: {
           x: playerPos.x,
           y: playerPos.y,
-        }
+        },
+        range: 1
       })
     },
     stop: (_, { game, playerId }) => {
@@ -145,7 +152,31 @@ Rune.initLogic({
   },
   update: ({ game }) => {
     if (game.currentScreen === "play") {
-      game.timeLeft = ROUND_DURATION - (Rune.gameTime() - game.gameStartedAt)
+      const currentTime = Rune.gameTime(); // Usa o tempo do jogo
+
+      //insere explosoes nas bombas q expiraram
+      const explosions = game.explosions
+      const exploding = game.bombsMap.filter(bomb => {
+        const timeElapsed = currentTime - bomb.placedAt;
+        return timeElapsed >= bomb.timeToExplode; // Mantém só as bombas que ainda não explodiram
+      });
+      exploding.forEach(b => {
+        game.explosions = explosions.concat(createExplosions(b, game))
+      })
+
+      //remove bombas q expiraram
+      game.bombsMap = game.bombsMap.filter(bomb => {
+        const timeElapsed = currentTime - bomb.placedAt;
+        return timeElapsed < bomb.timeToExplode; // Mantém só as bombas que ainda não explodiram
+      });
+      
+      //remove explosoes q expiraram
+      game.explosions = game.explosions.filter(explosion => {
+        const timeElapsed = currentTime - explosion.createdAt;
+        return timeElapsed < explosion.duration; // Mantém só as bombas que ainda não explodiram
+      });
+
+      // game.timeLeft = ROUND_DURATION - (Rune.gameTime() - game.gameStartedAt)
       if (1>2 && game.timeLeft <= 0) {
         game.currentScreen = "gameOver"
         Rune.gameOver({

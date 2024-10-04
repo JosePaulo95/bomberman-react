@@ -76,7 +76,7 @@ function load() {
     },
     {
       alias: "explosion_0",
-      src: "./tnt.png",
+      src: "./explosion_0.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
   ])
