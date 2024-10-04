@@ -2,6 +2,7 @@ import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer"
 
 import { ROUND_DURATION } from "./constants"
 import { createExplosions } from "./helpers/Bombs"
+import { createTerrainMap } from "./helpers/Levels"
 import { Bomb, Explosion, GameScreen, Player, Vector } from "./types"
 
 export type GameState = {
@@ -53,13 +54,7 @@ Rune.initLogic({
       currentScreen: "lobby",
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
-      terrainMap: [
-        [0, 2, 0, 0, 0],
-        [0, 1, 0, 1, 0],
-        [0, 2, 2, 0, 0],
-        [0, 1, 0, 1, 2],
-        [0, 0, 0, 2, 0],
-      ],
+      terrainMap: createTerrainMap(1),
       bombsMap: [],
       explosions: [],
     }
@@ -124,7 +119,8 @@ Rune.initLogic({
     },
     destroyCrateAt: (pos: Vector, { game, playerId }) => {
       if(game.terrainMap[pos.y][pos.x] == 2){
-        game.terrainMap[pos.y][pos.x] = 3
+        game.terrainMap[pos.y][pos.x] = 0
+        // game.terrainMap[pos.y][pos.x] = 3
       }
     },
     stop: (_, { game, playerId }) => {
