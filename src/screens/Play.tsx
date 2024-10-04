@@ -50,9 +50,9 @@ export function Play() {
         {
           player && 
             <Container width={window.innerWidth*1.5} height={window.innerWidth*1.5} position={{ x: 0, y: 0 }}>
-              { terrainMap && <GroundLayer floor={terrainMap} />}
-              { bombsMap && <BombsLayer data={bombsMap} />}
-              { bombsMap && <ExplosionsLayer data={explosionsList} />}
+              { terrainMap && <GroundLayer floor={terrainMap} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
+              { bombsMap && <BombsLayer data={bombsMap} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
+              { bombsMap && <ExplosionsLayer data={explosionsList} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />}
 
               <PlayerLayer data={{ ...player, ...centralPos }} />
 
@@ -71,7 +71,7 @@ export function Play() {
               )}
               
               {(terrainMap[player.y]?.[player.x + 1] === 0 || terrainMap[player.y]?.[player.x + 1] === 3) && (
-                <InputLayer x={player.x + 1} y={player.y} onClick={() => handleSpriteClick("right")} />
+                <InputLayer x={centralPos.x + 1} y={centralPos.y} onClick={() => handleSpriteClick("right")} />
               )}
             </Container>
         }

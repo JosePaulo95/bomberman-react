@@ -1,4 +1,4 @@
-import { Bomb } from "@/types";
+import { Bomb, Vector } from "@/types";
 import { Texture } from "@pixi/core";
 import { AnimatedSprite } from "@pixi/react";
 import React, { useMemo } from "react";
@@ -6,6 +6,7 @@ import React, { useMemo } from "react";
 // Definindo os tipos das props
 interface BombsLayerProps {
   data: Bomb[];
+  pivo: Vector;
 }
 
 // Função para carregar as texturas do sprite sheet com useMemo
@@ -16,7 +17,7 @@ const getAnimationFrames = (tile: number): Texture[] => {
 };
 
 // Componente BombsLayer
-export const BombsLayer: React.FC<BombsLayerProps> = ({ data }) => {
+export const BombsLayer: React.FC<BombsLayerProps> = ({ data, pivo }) => {
   const tileSize = 16; // Tamanho do tile
 
   return (
@@ -31,7 +32,7 @@ export const BombsLayer: React.FC<BombsLayerProps> = ({ data }) => {
         return (
           <AnimatedSprite
             key={bomb.id}
-            position={{ x: bomb.pos.x * tileSize, y: (bomb.pos.y - 1) * tileSize }}
+            position={{ x: (bomb.pos.x-pivo.x) * tileSize, y: (bomb.pos.y-pivo.y-1) * tileSize }}
             textures={textures} // Usa as texturas memoizadas
             animationSpeed={0.05} // Velocidade da animação
             isPlaying={true} // Começa a tocar a animação automaticamente

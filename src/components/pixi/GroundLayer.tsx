@@ -1,3 +1,4 @@
+import { Vector } from "@/types";
 import { Texture } from "@pixi/core";
 import { AnimatedSprite } from "@pixi/react";
 import React from "react";
@@ -5,6 +6,7 @@ import React from "react";
 // Definindo os tipos das props
 interface GroundLayerProps {
   floor: number[][];
+  pivo: Vector;
 }
 
 // Função para mapear o valor da célula para uma textura específica
@@ -24,29 +26,30 @@ const getTexturesForTile = (tileValue: number): Texture[] => {
 };
 
 // Componente GroundLayer
-export const GroundLayer: React.FC<GroundLayerProps> = ({ floor }) => {
+export const GroundLayer: React.FC<GroundLayerProps> = ({ floor, pivo }) => {
   const tileSize = 16; // Tamanho do tile
-
+  
   return (
     <>
       {floor.map((row, rowIndex) =>
         row.map((tile, colIndex) => (
           <AnimatedSprite
             key={`${rowIndex}-${colIndex}-${tile}`}
-            position={{ x: colIndex * tileSize, y: rowIndex * tileSize }}
+            position={{ x: (colIndex-pivo.x) * tileSize, y: (rowIndex-pivo.y) * tileSize }}
             textures={getTexturesForTile(0)}
             animationSpeed={0.05} // Velocidade da animação
             isPlaying={true} // Começa a tocar a animação automaticamente
             scale={1}
-          />
-        ))
-      )}
+            />
+          ))
+        )}
       {floor.map((row, rowIndex) =>
         row.map((tile, colIndex) => (
           ![0].includes(tile) &&
           <AnimatedSprite
             key={`${rowIndex}-${colIndex}-${tile}`}
-            position={{ x: colIndex * tileSize, y: rowIndex * tileSize }}
+            position={{ x: (colIndex-pivo.x) * tileSize, y: (rowIndex-pivo.y) * tileSize }}
+          // position={{ x: colIndex * tileSize, y: rowIndex * tileSize }}
             textures={getTexturesForTile(tile)}
             animationSpeed={0.05} // Velocidade da animação
             isPlaying={true} // Começa a tocar a animação automaticamente

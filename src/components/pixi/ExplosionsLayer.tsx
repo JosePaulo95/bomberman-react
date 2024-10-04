@@ -1,4 +1,4 @@
-import { Explosion } from "@/types";
+import { Explosion, Vector } from "@/types";
 import { Texture } from "@pixi/core";
 import { AnimatedSprite } from "@pixi/react";
 import React from "react";
@@ -6,6 +6,7 @@ import React from "react";
 // Definindo os tipos das props
 interface ExplosionsLayerProps {
   data: Explosion[];
+  pivo: Vector;
 }
 
 // Função para carregar as texturas do sprite sheet
@@ -14,7 +15,7 @@ const getAnimationFrames = (tile: number): Texture[] => {
 };
 
 // Componente ExplosionsLayer
-export const ExplosionsLayer: React.FC<ExplosionsLayerProps> = ({ data }) => {
+export const ExplosionsLayer: React.FC<ExplosionsLayerProps> = ({ data, pivo }) => {
   const tileSize = 16; // Tamanho do tile
 
   return (
@@ -22,7 +23,7 @@ export const ExplosionsLayer: React.FC<ExplosionsLayerProps> = ({ data }) => {
       {data.map((bomb, index) => (
         <AnimatedSprite
           key={index}
-          position={{ x: bomb.pos.x * tileSize, y: (bomb.pos.y) * tileSize }}
+          position={{ x: (bomb.pos.x-pivo.x) * tileSize, y: (bomb.pos.y-pivo.y) * tileSize }}
           textures={getAnimationFrames(1)} // Passa os frames com base no tipo da bomba
           animationSpeed={0.05} // Velocidade da animação
           isPlaying={true} // Começa a tocar a animação automaticamente
