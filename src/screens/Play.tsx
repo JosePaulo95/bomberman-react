@@ -5,6 +5,7 @@ import { InputLayer } from "@/components/pixi/InputLayer";
 import { PlayerLayer } from "@/components/pixi/PlayerLayer";
 import { Pixi } from "@/helpers/Pixi";
 import { useGameStore } from "@/store/useGameStore";
+import { Vector } from "@/types";
 import { Container } from "@pixi/react";
 import { useShallow } from "zustand/react/shallow";
 
@@ -39,7 +40,10 @@ export function Play() {
   const handlePlaceBombClick = () => {
     Rune.actions.placeBomb();
   }
-
+  const centralPos: Vector = {
+    x: 2,
+    y: 2
+  }
   return (
     <div>
       <Pixi.In>
@@ -50,20 +54,20 @@ export function Play() {
               { bombsMap && <BombsLayer data={bombsMap} />}
               { bombsMap && <ExplosionsLayer data={explosionsList} />}
 
-              <PlayerLayer data={player}/>
+              <PlayerLayer data={{ ...player, ...centralPos }} />
 
-              <InputLayer x={player.x} y={player.y} onClick={() => handlePlaceBombClick()} />
+              <InputLayer x={centralPos.x} y={centralPos.y} onClick={() => handlePlaceBombClick()} />
               
               {(terrainMap[player.y - 1]?.[player.x] === 0 || terrainMap[player.y - 1]?.[player.x] === 3) && (
-                <InputLayer x={player.x} y={player.y - 1} onClick={() => handleSpriteClick("up")} />
+                <InputLayer x={centralPos.x} y={centralPos.y - 1} onClick={() => handleSpriteClick("up")} />
               )}
               
               {(terrainMap[player.y + 1]?.[player.x] === 0 || terrainMap[player.y + 1]?.[player.x] === 3) && (
-                <InputLayer x={player.x} y={player.y + 1} onClick={() => handleSpriteClick("down")} />
+                <InputLayer x={centralPos.x} y={centralPos.y + 1} onClick={() => handleSpriteClick("down")} />
               )}
               
               {(terrainMap[player.y]?.[player.x - 1] === 0 || terrainMap[player.y]?.[player.x - 1] === 3) && (
-                <InputLayer x={player.x - 1} y={player.y} onClick={() => handleSpriteClick("left")} />
+                <InputLayer x={centralPos.x - 1} y={centralPos.y} onClick={() => handleSpriteClick("left")} />
               )}
               
               {(terrainMap[player.y]?.[player.x + 1] === 0 || terrainMap[player.y]?.[player.x + 1] === 3) && (
