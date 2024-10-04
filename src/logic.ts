@@ -61,14 +61,7 @@ Rune.initLogic({
         [0, 0, 0, 2, 0],
       ],
       bombsMap: [],
-      explosions: [{
-        pos: {
-          x: 4,
-          y: 4,
-        },
-        createdAt: Rune.gameTime(),
-        duration: 5
-      }],
+      explosions: [],
     }
   },
   actions: {
@@ -129,7 +122,9 @@ Rune.initLogic({
       })
     },
     destroyCrateAt: (pos: Vector, { game, playerId }) => {
-      game.terrainMap[pos.y][pos.x] = 3
+      if(game.terrainMap[pos.y][pos.x] == 2){
+        game.terrainMap[pos.y][pos.x] = 3
+      }
     },
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
@@ -159,6 +154,12 @@ Rune.initLogic({
   update: ({ game }) => {
     if (game.currentScreen === "play") {
       const currentTime = Rune.gameTime(); // Usa o tempo do jogo
+      const explosions = game.explosions
+
+      //destrutiveis que colidem com explosao sao apagados
+      for (let i = 0; i < explosions.length; i++) {
+        Rune.actions.destroyCrateAt({x: explosions[i].pos.x, y: explosions[i].pos.y})
+      }
 
       const remain = game.bombsMap.filter(bomb => {
         const timeElapsed = currentTime - bomb.placedAt;
@@ -175,7 +176,6 @@ Rune.initLogic({
       game.bombsMap = remain
 
       //insere explosoes nas bombas q expiraram
-      const explosions = game.explosions
       exploding.forEach(b => {
         game.explosions = explosions.concat(createExplosions(b, game))
         explodedBombs_.add(`${b.pos.x}-${b.pos.y}-${b.placedAt}`); // Adiciona ao Set
