@@ -2,7 +2,7 @@ import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer"
 
 import { ROUND_DURATION } from "./constants"
 import { createExplosions } from "./helpers/Bombs"
-import { Bomb, Explosion, GameScreen, Player } from "./types"
+import { Bomb, Explosion, GameScreen, Player, Vector } from "./types"
 
 export type GameState = {
   players: Record<PlayerId, Player>
@@ -21,12 +21,15 @@ type GameActions = {
   moveUp: () => void
   moveDown: () => void
   placeBomb: () => void
+  destroyCrateAt: (pos: Vector) => void
   stop: () => void
 }
 
 declare global {
   const Rune: RuneClient<GameState, GameActions>
 }
+
+let explodedBombs_ = new Set(); // Usando um Set para garantir que não haja duplicatas
 
 Rune.initLogic({
   minPlayers: 1,
@@ -122,8 +125,11 @@ Rune.initLogic({
           x: playerPos.x,
           y: playerPos.y,
         },
-        range: 1
+        range: 2
       })
+    },
+    destroyCrateAt: (pos: Vector, { game, playerId }) => {
+      game.terrainMap[pos.y][pos.x] = 3
     },
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
@@ -154,21 +160,27 @@ Rune.initLogic({
     if (game.currentScreen === "play") {
       const currentTime = Rune.gameTime(); // Usa o tempo do jogo
 
-      //insere explosoes nas bombas q expiraram
-      const explosions = game.explosions
-      const exploding = game.bombsMap.filter(bomb => {
-        const timeElapsed = currentTime - bomb.placedAt;
-        return timeElapsed >= bomb.timeToExplode; // Mantém só as bombas que ainda não explodiram
-      });
-      exploding.forEach(b => {
-        game.explosions = explosions.concat(createExplosions(b, game))
-      })
-
-      //remove bombas q expiraram
-      game.bombsMap = game.bombsMap.filter(bomb => {
+      const remain = game.bombsMap.filter(bomb => {
         const timeElapsed = currentTime - bomb.placedAt;
         return timeElapsed < bomb.timeToExplode; // Mantém só as bombas que ainda não explodiram
       });
+      const exploding = game.bombsMap.filter(bomb => {
+        const timeElapsed = currentTime - bomb.placedAt;
+        // return timeElapsed >= bomb.timeToExplode; // Mantém só as bombas que ainda não explodiram
+        return timeElapsed >= bomb.timeToExplode && !explodedBombs_.has(`${bomb.pos.x}-${bomb.pos.y}-${bomb.placedAt}`); // Verifica se já explodiu
+
+      });
+
+      //remove bombas q expiraram
+      game.bombsMap = remain
+
+      //insere explosoes nas bombas q expiraram
+      const explosions = game.explosions
+      exploding.forEach(b => {
+        game.explosions = explosions.concat(createExplosions(b, game))
+        explodedBombs_.add(`${b.pos.x}-${b.pos.y}-${b.placedAt}`); // Adiciona ao Set
+        debugger;
+      })
       
       //remove explosoes q expiraram
       game.explosions = game.explosions.filter(explosion => {

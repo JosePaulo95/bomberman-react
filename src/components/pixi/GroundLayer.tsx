@@ -17,7 +17,7 @@ const getTexturesForTile = (tileValue: number): Texture[] => {
     case 2:
       return [Texture.from(`crate_0`)]; // destrutivel
     case 3:
-      return [Texture.from(`crate_0`)]; // destrutivel
+      return [Texture.from(`ground_0`)]; // destrutivel
     default:
       return [Texture.from(`ground_0`)]; // na dúvida é chao
   }
