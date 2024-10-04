@@ -77,7 +77,7 @@ Rune.initLogic({
       const newX = player.position.x - 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap[player.position.y]?.[newX] === 0) {
+      if (game.terrainMap[player.position.y]?.[newX] === 0 || game.terrainMap[player.position.y]?.[newX] === 3) {
         player.position.x = newX;
       }
     },
@@ -86,7 +86,7 @@ Rune.initLogic({
       const newX = player.position.x + 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap[player.position.y]?.[newX] === 0) {
+      if (game.terrainMap[player.position.y]?.[newX] === 0 || game.terrainMap[player.position.y]?.[newX] === 3) {
         player.position.x = newX;
       }
     },
@@ -95,7 +95,7 @@ Rune.initLogic({
       const newY = player.position.y - 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap[newY]?.[player.position.x] === 0) {
+      if (game.terrainMap[newY]?.[player.position.x] === 0 || game.terrainMap[newY]?.[player.position.x] === 3) {
         player.position.y = newY;
       }
     },
@@ -104,7 +104,7 @@ Rune.initLogic({
       const newY = player.position.y + 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap[newY]?.[player.position.x] === 0) {
+      if (game.terrainMap[newY]?.[player.position.x] === 0 || game.terrainMap[newY]?.[player.position.x] === 3) {
         player.position.y = newY;
       }
     },

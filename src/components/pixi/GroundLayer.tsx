@@ -17,7 +17,7 @@ const getTexturesForTile = (tileValue: number): Texture[] => {
     case 2:
       return [Texture.from(`crate_0`)]; // destrutivel
     case 3:
-      return [Texture.from(`ground_0`)]; // destrutivel
+      return [Texture.from(`player_0`), Texture.from(`crate_0`), Texture.from(`ground_0`), Texture.from(`crate_0`)]; // destrutivel
     default:
       return [Texture.from(`ground_0`)]; // na dúvida é chao
   }
@@ -32,7 +32,7 @@ export const GroundLayer: React.FC<GroundLayerProps> = ({ floor }) => {
       {floor.map((row, rowIndex) =>
         row.map((tile, colIndex) => (
           <AnimatedSprite
-            key={`${rowIndex}-${colIndex}`}
+            key={`${rowIndex}-${colIndex}-${tile}`}
             position={{ x: colIndex * tileSize, y: rowIndex * tileSize }}
             textures={getTexturesForTile(0)}
             animationSpeed={0.05} // Velocidade da animação
@@ -45,7 +45,7 @@ export const GroundLayer: React.FC<GroundLayerProps> = ({ floor }) => {
         row.map((tile, colIndex) => (
           ![0].includes(tile) &&
           <AnimatedSprite
-            key={`${rowIndex}-${colIndex}`}
+            key={`${rowIndex}-${colIndex}-${tile}`}
             position={{ x: colIndex * tileSize, y: rowIndex * tileSize }}
             textures={getTexturesForTile(tile)}
             animationSpeed={0.05} // Velocidade da animação
