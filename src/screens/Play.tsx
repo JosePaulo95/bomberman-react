@@ -5,6 +5,7 @@ import { InputLayer } from "@/components/pixi/InputLayer";
 import { PlayerLayer } from "@/components/pixi/PlayerLayer";
 import { Pixi } from "@/helpers/Pixi";
 import { useGameStore } from "@/store/useGameStore";
+import { Container } from "@pixi/react";
 import { useShallow } from "zustand/react/shallow";
 
 export function Play() {
@@ -42,13 +43,15 @@ export function Play() {
   return (
     <div>
       <Pixi.In>
-        { terrainMap && <GroundLayer floor={terrainMap} />}
-        { bombsMap && <BombsLayer data={bombsMap} />}
-        { bombsMap && <ExplosionsLayer data={explosionsList} />}
         {
           player && 
-            <>
+            <Container width={window.innerWidth*1.5} height={window.innerWidth*1.5} position={{ x: 0, y: 0 }}>
+              { terrainMap && <GroundLayer floor={terrainMap} />}
+              { bombsMap && <BombsLayer data={bombsMap} />}
+              { bombsMap && <ExplosionsLayer data={explosionsList} />}
+
               <PlayerLayer data={player}/>
+
               <InputLayer x={player.x} y={player.y} onClick={() => handlePlaceBombClick()} />
               
               {(terrainMap[player.y - 1]?.[player.x] === 0 || terrainMap[player.y - 1]?.[player.x] === 3) && (
@@ -66,7 +69,7 @@ export function Play() {
               {(terrainMap[player.y]?.[player.x + 1] === 0 || terrainMap[player.y]?.[player.x + 1] === 3) && (
                 <InputLayer x={player.x + 1} y={player.y} onClick={() => handleSpriteClick("right")} />
               )}
-            </>
+            </Container>
         }
 
         {Object.keys(players)

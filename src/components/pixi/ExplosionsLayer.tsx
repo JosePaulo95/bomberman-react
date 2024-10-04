@@ -1,6 +1,6 @@
 import { Explosion } from "@/types";
 import { Texture } from "@pixi/core";
-import { AnimatedSprite, Container } from "@pixi/react";
+import { AnimatedSprite } from "@pixi/react";
 import React from "react";
 
 // Definindo os tipos das props
@@ -18,7 +18,7 @@ export const ExplosionsLayer: React.FC<ExplosionsLayerProps> = ({ data }) => {
   const tileSize = 16; // Tamanho do tile
 
   return (
-    <Container scale={3} position={{ x: 0, y: 0 }}>
+    <>
       {data.map((bomb, index) => (
         <AnimatedSprite
           key={index}
@@ -29,6 +29,6 @@ export const ExplosionsLayer: React.FC<ExplosionsLayerProps> = ({ data }) => {
           scale={1}
         />
       ))}
-    </Container>
+    </>
   );
 };

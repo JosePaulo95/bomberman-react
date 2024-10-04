@@ -1,6 +1,6 @@
 import { Bomb } from "@/types";
 import { Texture } from "@pixi/core";
-import { AnimatedSprite, Container } from "@pixi/react";
+import { AnimatedSprite } from "@pixi/react";
 import React, { useMemo } from "react";
 
 // Definindo os tipos das props
@@ -20,7 +20,7 @@ export const BombsLayer: React.FC<BombsLayerProps> = ({ data }) => {
   const tileSize = 16; // Tamanho do tile
 
   return (
-    <Container scale={3} position={{ x: 0, y: 0 }}>
+    <>
       {data.map((bomb, index) => {
         // Memoizando as texturas com base em bomb.type ou outro valor relevante
         const textures = useMemo(
@@ -39,6 +39,6 @@ export const BombsLayer: React.FC<BombsLayerProps> = ({ data }) => {
           />
         );
       })}
-    </Container>
+    </>
   );
 };

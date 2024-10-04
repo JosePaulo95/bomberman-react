@@ -1,6 +1,6 @@
 import { Html } from "@/helpers/Html";
 import { Texture } from "@pixi/core";
-import { Container, Sprite } from "@pixi/react";
+import { Sprite } from "@pixi/react";
 import React from "react";
 
 // Definindo os tipos das props
@@ -29,7 +29,7 @@ export const InputLayer: React.FC<InputLayerProps> = ({ onClick, x, y }) => {
   };
 
   return (
-    <Container scale={scale} position={{ x: 0, y: 0 }}>
+    <>
       <Sprite
         texture={inputTexture}
         position={{ x: x * tileSize, y: y * tileSize }} // Posiciona no grid
@@ -38,6 +38,6 @@ export const InputLayer: React.FC<InputLayerProps> = ({ onClick, x, y }) => {
       <Html.In>
         <button style={buttonStyle} onClick={onClick}></button>
       </Html.In>
-    </Container>
+    </>
   );
 };

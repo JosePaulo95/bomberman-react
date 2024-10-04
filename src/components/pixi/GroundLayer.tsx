@@ -1,5 +1,5 @@
 import { Texture } from "@pixi/core";
-import { AnimatedSprite, Container } from "@pixi/react";
+import { AnimatedSprite } from "@pixi/react";
 import React from "react";
 
 // Definindo os tipos das props
@@ -28,7 +28,7 @@ export const GroundLayer: React.FC<GroundLayerProps> = ({ floor }) => {
   const tileSize = 16; // Tamanho do tile
 
   return (
-    <Container scale={3} position={{ x: 0, y: 0 }}>
+    <>
       {floor.map((row, rowIndex) =>
         row.map((tile, colIndex) => (
           <AnimatedSprite
@@ -54,6 +54,6 @@ export const GroundLayer: React.FC<GroundLayerProps> = ({ floor }) => {
           />
         ))
       )}
-    </Container>
+    </>
   );
 };
