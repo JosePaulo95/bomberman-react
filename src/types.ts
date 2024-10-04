@@ -30,6 +30,7 @@ export enum CharacterModel {
 }
 
 export type Bomb = {
+  id: number;
   pos: Vector;
   placedAt: number;   // Timestamp da colocação da bomba
   timeToExplode: number; // Tempo até explodir

@@ -112,6 +112,7 @@ Rune.initLogic({
       const playerPos = game.players[playerId].position;
       
       game.bombsMap.push({
+        id: Rune.gameTimeInSeconds(),
         timeToExplode: 2000,
         placedAt: Rune.gameTime(),
         pos: {
@@ -156,7 +157,7 @@ Rune.initLogic({
       const currentTime = Rune.gameTime(); // Usa o tempo do jogo
       const explosions = game.explosions
 
-      //destrutiveis que colidem com explosao sao apagados
+      // destrutiveis que colidem com explosao sao apagados
       for (let i = 0; i < explosions.length; i++) {
         Rune.actions.destroyCrateAt({x: explosions[i].pos.x, y: explosions[i].pos.y})
       }
@@ -172,10 +173,10 @@ Rune.initLogic({
 
       });
 
-      //remove bombas q expiraram
+      // remove bombas q expiraram
       game.bombsMap = remain
 
-      //insere explosoes nas bombas q expiraram
+      // insere explosoes nas bombas q expiraram
       exploding.forEach(b => {
         game.explosions = explosions.concat(createExplosions(b, game))
         explodedBombs_.add(`${b.pos.x}-${b.pos.y}-${b.placedAt}`); // Adiciona ao Set

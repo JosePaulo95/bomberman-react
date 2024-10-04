@@ -16,21 +16,28 @@ const getAnimationFrames = (tile: number): Texture[] => {
   return [Texture.from("bomb_0_a")];
 };
 
-// Componente BombsLayer
-export const BombsLayer: React.FC<BombsLayerProps> = ({ data }) => {
+// Componente BombSprite memoizado para evitar re-renderizações desnecessárias
+const BombSprite: React.FC<{ bomb: Bomb }> = React.memo(({ bomb }) => {
   const tileSize = 16; // Tamanho do tile
 
   return (
+    <AnimatedSprite
+      key={bomb.id} // Usando a ID da bomba como chave única
+      position={{ x: bomb.pos.x * tileSize, y: (bomb.pos.y - 1) * tileSize }}
+      textures={getAnimationFrames(1)} // Passa os frames com base no tipo da bomba
+      animationSpeed={0.05} // Velocidade da animação
+      isPlaying={true} // Começa a tocar a animação automaticamente
+      scale={1}
+    />
+  );
+});
+
+// Componente BombsLayer
+export const BombsLayer: React.FC<BombsLayerProps> = ({ data }) => {
+  return (
     <Container scale={3} position={{ x: 0, y: 0 }}>
-      {data.map((bomb, index) => (
-        <AnimatedSprite
-          key={index}
-          position={{ x: bomb.pos.x * tileSize, y: (bomb.pos.y-1) * tileSize }}
-          textures={getAnimationFrames(1)} // Passa os frames com base no tipo da bomba
-          animationSpeed={0.05} // Velocidade da animação
-          isPlaying={true} // Começa a tocar a animação automaticamente
-          scale={1}
-        />
+      {data.map((bomb) => (
+        <BombSprite key={bomb.id} bomb={bomb} />
       ))}
     </Container>
   );
