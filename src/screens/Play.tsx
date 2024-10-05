@@ -44,12 +44,15 @@ export function Play() {
     x: 2,
     y: 2
   }
+
+  const responFactor = 0.1875;
+  const factor = responFactor*terrainMap.map[0].length
   return (
     <div>
       <Pixi.In>
         {
           player && 
-            <Container width={window.innerWidth*1.5} height={window.innerWidth*1.5} position={{ x: 0, y: 0 }}>
+            <Container width={window.innerWidth*factor} height={window.innerWidth*factor} position={{ x: 0, y: 0 }}>
               { terrainMap && <GroundLayer floor={terrainMap.map} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
               { bombsMap && <BombsLayer data={bombsMap} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
               { bombsMap && <ExplosionsLayer data={explosionsList} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />}

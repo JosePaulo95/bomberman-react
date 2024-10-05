@@ -6,11 +6,11 @@ const cantPlaceImmediate = (pos: Vector, game: GameState) => {
   const { terrainMap } = game;
 
   // 1. Limite do mapa (a explosão não pode sair dos limites)
-  if (pos.x < 0 || pos.x >= terrainMap[0].length || pos.y < 0 || pos.y >= terrainMap.length) {
+  if (pos.x < 0 || pos.x >= terrainMap.map[0].length || pos.y < 0 || pos.y >= terrainMap.map.length) {
     return true; // Não pode explodir fora dos limites
   }
 
-  const tile = terrainMap[pos.y][pos.x];
+  const tile = terrainMap.map[pos.y][pos.x];
 
   // 2. Colisão com paredes sólidas (não pode atravessar)
   if (tile === 1) {
@@ -24,7 +24,7 @@ const cantPlaceImmediate = (pos: Vector, game: GameState) => {
 const shouldStopOnDestructible = (pos: Vector, game: GameState) => {
   const { terrainMap } = game;
 
-  const tile = terrainMap[pos.y][pos.x];
+  const tile = terrainMap.map[pos.y][pos.x];
 
   // 3. Colisão com paredes destrutíveis (explosão para e destrói a parede)
   if (tile === 2) {
