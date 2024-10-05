@@ -27,23 +27,22 @@ function makeSquareMatrix(matrix: number[][]): number[][] {
 }
 
 function convertStringMapToArray2D(map: string): number[][] {
-    // Remove espaços extras no começo e final, e divide a string em linhas
+    const emojiMap: { [key: string]: number } = {
+        '⬛': 0,  // Caixa cinza
+        '🟦': 1,  // parede
+        '⬜': 2,  // bloco quebravel
+        '🔑': 4,  // Chave
+        '🟨': 5,  // Porta
+    };
+
+    // Remove espaços extras e divide a string em linhas
     const lines = map.trim().split('\n');
 
     // Mapeia cada linha para um array de números
-    const result = lines.map(line =>
-        line.trim().split('').map(char => {
-            if (char === '_') return 0; // Se for '__', substitui por 0
-            if (char === 'b') return 1; // Se for 'b', substitui por 1
-            if (char === 'c') return 2; // Se for 'b', substitui por 1
-            if (char === 'k') return 4; // Se for 'b', substitui por 1
-            if (char === 's') return 5; // Se for 'b', substitui por 1
-            if (char === 'o') return 6; // Se for 'b', substitui por 1
-            // Qualquer outro caractere substitui por 0
-            return 0;
-        })
+    const result = lines.map(line => 
+        Array.from(line.trim()).map(char => emojiMap[char] || 0)
     );
-
+    debugger;
     return makeSquareMatrix(result);
 }
 
@@ -53,28 +52,42 @@ export const createTerrainMap = (level: number): Level => {
             // Terreno misturado
             return {
                 map: convertStringMapToArray2D(`
-                    ___________
-                    _b__b______
-                    __1______bc
-                    _b___ss__ck
-                    __2______bc
-                    _b__b______
-                    ___________
+                ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
+                ⬛🟦⬛⬛🟦⬛⬛⬛⬛⬛⬛
+                ⬛⬛👨⬛⬛⬛⬛⬛⬛🟦⬜
+                ⬛🟦⬛⬛⬛🟨🟨⬛⬛⬜🔑
+                ⬛⬛👩⬛⬛⬛⬛⬛⬛🟦⬜
+                ⬛🟦⬛⬛🟦⬛⬛⬛⬛⬛⬛
+                ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
+                `)
+            }
+        case 2:
+            // Terreno misturado
+            return {
+                map: convertStringMapToArray2D(`
+                👨⬛⬛⬜⬜⬛⬛⬛⬛⬛⬛
+                ⬛🟦⬛🟦⬜🟦⬛🟦⬛🟦⬛
+                ⬛⬛⬜⬛⬛⬛⬛⬛⬛⬛⬛
+                ⬛🟦⬛🟦⬜🟦⬜🟦⬛🟦⬛
+                🟨🟨⬛⬛⬜⬛⬛⬛⬛⬜⬛
+                ⬛🟦⬛🟦⬜🟦⬛🟦⬛🟦⬛
+                ⬛⬛⬜⬛⬛⬛⬜⬛⬛⬛⬛
+                ⬛🟦⬛🟦⬜🟦⬛🟦🔑🟦⬛
+                👩⬛⬛⬜⬜⬛⬛⬛⬛⬛⬛
                 `)
             }
         default:
             // Terreno padrão, todo 0
             return {
-                map: [
-                    [0, 2, 1, 0, 0, 1, 2, 0],
-                    [0, 1, 0, 1, 2, 0, 1, 0],
-                    [0, 2, 2, 0, 1, 0, 0, 2],
-                    [0, 1, 0, 0, 0, 2, 0, 1],
-                    [0, 0, 0, 0, 0, 0, 2, 0],
-                    [1, 0, 2, 0, 1, 0, 1, 2],
-                    [0, 2, 1, 0, 0, 1, 2, 0],
-                    [0, 1, 0, 1, 2, 0, 1, 0]
-                ]
+                map: convertStringMapToArray2D(`
+                ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
+                ⬛🟦⬛⬛🟦⬛⬛⬛⬛⬛⬛
+                ⬛⬛👨⬛⬛⬛⬛⬛⬛🟦⬜
+                ⬛🟦⬛⬛⬛🟨🟨⬛⬛⬜🔑
+                ⬛⬛👩⬛⬛⬛⬛⬛⬛🟦⬜
+                ⬛🟦⬛⬛🟦⬛⬛⬛⬛⬛⬛
+                ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
+                `)
             }
     }
 }
