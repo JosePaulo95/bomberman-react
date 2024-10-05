@@ -25,7 +25,7 @@ type GameActions = {
   placeBomb: () => void
   destroyCrateAt: (pos: Vector) => void
   stop: () => void
-  collectKey: (coord: Vector) => void
+  checkKeyCollection: (coord: Vector) => void
 }
 
 declare global {
@@ -77,7 +77,23 @@ Rune.initLogic({
       // Verificar se o novo local no terreno é 0 (pisável)
       if (isWalkableTile(game.terrainMap.map[player.position.y]?.[newX])) {
         player.position.x = newX;
-        Rune.actions.collectKey({ x: newX, y: player.position.y });
+      }
+      if(game.terrainMap.map[player.position.y]?.[newX] == 4){
+        game.terrainMap.map[player.position.y][newX] = 0;
+        for (let i = 0; i < game.terrainMap.map.length; i++) {
+          for (let j = 0; j < game.terrainMap.map[0].length; j++) {
+            if(game.terrainMap.map[i][j] == 5){
+              game.terrainMap.map[i][j] = 6
+            }
+            
+          }
+        }
+      }
+
+      if(Object.keys(game.players).every(id => 
+        game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
+      )){
+        debugger;
       }
     },
     moveRight: (_, { game, playerId }) => {
@@ -87,7 +103,21 @@ Rune.initLogic({
       // Verificar se o novo local no terreno é 0 (pisável)
       if (isWalkableTile(game.terrainMap.map[player.position.y]?.[newX])) {
         player.position.x = newX;
-        Rune.actions.collectKey({ x: newX, y: player.position.y });
+      }
+      if(game.terrainMap.map[player.position.y]?.[newX] == 4){
+        game.terrainMap.map[player.position.y][newX] = 0
+        for (let i = 0; i < game.terrainMap.map.length; i++) {
+          for (let j = 0; j < game.terrainMap.map[0].length; j++) {
+            if(game.terrainMap.map[i][j] == 5){
+              game.terrainMap.map[i][j] = 6
+            }
+          }
+        }
+      }
+      if(Object.keys(game.players).every(id => 
+        game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
+      )){
+        debugger;
       }
     },
     moveUp: (_, { game, playerId }) => {
@@ -97,7 +127,21 @@ Rune.initLogic({
       // Verificar se o novo local no terreno é 0 (pisável)
       if (isWalkableTile(game.terrainMap.map[newY]?.[player.position.x])) {
         player.position.y = newY;
-        Rune.actions.collectKey({ x: player.position.x, y: newY });
+      }
+      if(game.terrainMap.map[newY]?.[player.position.x] == 4){
+        game.terrainMap.map[newY][player.position.x] = 0
+        for (let i = 0; i < game.terrainMap.map.length; i++) {
+          for (let j = 0; j < game.terrainMap.map[0].length; j++) {
+            if(game.terrainMap.map[i][j] == 5){
+              game.terrainMap.map[i][j] = 6
+            }
+          }
+        }
+      }
+      if(Object.keys(game.players).every(id => 
+        game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
+      )){
+        debugger;
       }
     },
     moveDown: (_, { game, playerId }) => {
@@ -107,10 +151,25 @@ Rune.initLogic({
       // Verificar se o novo local no terreno é 0 (pisável)
       if (isWalkableTile(game.terrainMap.map[newY]?.[player.position.x])) {
         player.position.y = newY;
-        Rune.actions.collectKey({ x: player.position.x, y: newY });
+      }
+      if(game.terrainMap.map[newY]?.[player.position.x] == 4){
+        game.terrainMap.map[newY][player.position.x] = 0;
+        for (let i = 0; i < game.terrainMap.map.length; i++) {
+          for (let j = 0; j < game.terrainMap.map[0].length; j++) {
+            if(game.terrainMap.map[i][j] == 5){
+              game.terrainMap.map[i][j] = 6
+            }
+            
+          }
+        }
+      }
+      if(Object.keys(game.players).every(id => 
+        game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
+      )){
+        debugger;
       }
     },
-    collectKey: (coord: Vector, { game, playerId }) => {
+    checkKeyCollection: (coord: Vector, { game, playerId }) => {
       const tile = game.terrainMap.map[coord.y]?.[coord.x];
     
       if (tile === 4) {
@@ -198,7 +257,6 @@ Rune.initLogic({
       exploding.forEach(b => {
         game.explosions = explosions.concat(createExplosions(b, game))
         explodedBombs_.add(`${b.pos.x}-${b.pos.y}-${b.placedAt}`); // Adiciona ao Set
-        debugger;
       })
       
       //remove explosoes q expiraram
