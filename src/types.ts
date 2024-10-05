@@ -42,3 +42,7 @@ export type Explosion = {
   createdAt: number;  // Timestamp da criação da explosão
   duration: number;   // Quanto tempo a explosão dura
 };
+
+export type Level = {
+  map: number[][];
+}

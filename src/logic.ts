@@ -3,14 +3,14 @@ import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer"
 import { ROUND_DURATION } from "./constants"
 import { createExplosions } from "./helpers/Bombs"
 import { createTerrainMap } from "./helpers/Levels"
-import { Bomb, Explosion, GameScreen, Player, Vector } from "./types"
+import { Bomb, Explosion, GameScreen, Level, Player, Vector } from "./types"
 
 export type GameState = {
   players: Record<PlayerId, Player>
   currentScreen: GameScreen
   timeLeft: number
   gameStartedAt: number
-  terrainMap: number[][]
+  terrainMap: Level
   bombsMap: Bomb[]
   explosions: Explosion[]
 }
@@ -72,7 +72,7 @@ Rune.initLogic({
       const newX = player.position.x - 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap[player.position.y]?.[newX] === 0 || game.terrainMap[player.position.y]?.[newX] === 3) {
+      if (game.terrainMap.map[player.position.y]?.[newX] === 0 || game.terrainMap.map[player.position.y]?.[newX] === 3) {
         player.position.x = newX;
       }
     },
@@ -81,7 +81,7 @@ Rune.initLogic({
       const newX = player.position.x + 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap[player.position.y]?.[newX] === 0 || game.terrainMap[player.position.y]?.[newX] === 3) {
+      if (game.terrainMap.map[player.position.y]?.[newX] === 0 || game.terrainMap.map[player.position.y]?.[newX] === 3) {
         player.position.x = newX;
       }
     },
@@ -90,7 +90,7 @@ Rune.initLogic({
       const newY = player.position.y - 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap[newY]?.[player.position.x] === 0 || game.terrainMap[newY]?.[player.position.x] === 3) {
+      if (game.terrainMap.map[newY]?.[player.position.x] === 0 || game.terrainMap.map[newY]?.[player.position.x] === 3) {
         player.position.y = newY;
       }
     },
@@ -99,7 +99,7 @@ Rune.initLogic({
       const newY = player.position.y + 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap[newY]?.[player.position.x] === 0 || game.terrainMap[newY]?.[player.position.x] === 3) {
+      if (game.terrainMap.map[newY]?.[player.position.x] === 0 || game.terrainMap.map[newY]?.[player.position.x] === 3) {
         player.position.y = newY;
       }
     },
@@ -118,8 +118,8 @@ Rune.initLogic({
       })
     },
     destroyCrateAt: (pos: Vector, { game, playerId }) => {
-      if(game.terrainMap[pos.y][pos.x] == 2){
-        game.terrainMap[pos.y][pos.x] = 0
+      if(game.terrainMap.map[pos.y][pos.x] == 2){
+        game.terrainMap.map[pos.y][pos.x] = 0
         // game.terrainMap[pos.y][pos.x] = 3
       }
     },
