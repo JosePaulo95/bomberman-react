@@ -25,6 +25,7 @@ type GameActions = {
   placeBomb: () => void
   destroyCrateAt: (pos: Vector) => void
   stop: () => void
+  collectKey: (coord: Vector) => void
 }
 
 declare global {
@@ -68,6 +69,7 @@ Rune.initLogic({
         startGame(game)
       }
     },
+
     moveLeft: (_, { game, playerId }) => {
       const player = game.players[playerId];
       const newX = player.position.x - 1;
@@ -75,6 +77,7 @@ Rune.initLogic({
       // Verificar se o novo local no terreno é 0 (pisável)
       if (isWalkableTile(game.terrainMap.map[player.position.y]?.[newX])) {
         player.position.x = newX;
+        Rune.actions.collectKey({ x: newX, y: player.position.y });
       }
     },
     moveRight: (_, { game, playerId }) => {
@@ -84,6 +87,7 @@ Rune.initLogic({
       // Verificar se o novo local no terreno é 0 (pisável)
       if (isWalkableTile(game.terrainMap.map[player.position.y]?.[newX])) {
         player.position.x = newX;
+        Rune.actions.collectKey({ x: newX, y: player.position.y });
       }
     },
     moveUp: (_, { game, playerId }) => {
@@ -93,6 +97,7 @@ Rune.initLogic({
       // Verificar se o novo local no terreno é 0 (pisável)
       if (isWalkableTile(game.terrainMap.map[newY]?.[player.position.x])) {
         player.position.y = newY;
+        Rune.actions.collectKey({ x: player.position.x, y: newY });
       }
     },
     moveDown: (_, { game, playerId }) => {
@@ -102,6 +107,22 @@ Rune.initLogic({
       // Verificar se o novo local no terreno é 0 (pisável)
       if (isWalkableTile(game.terrainMap.map[newY]?.[player.position.x])) {
         player.position.y = newY;
+        Rune.actions.collectKey({ x: player.position.x, y: newY });
+      }
+    },
+    collectKey: (coord: Vector, { game, playerId }) => {
+      const tile = game.terrainMap.map[coord.y]?.[coord.x];
+    
+      if (tile === 4) {
+        game.terrainMap.map[coord.y][coord.x] = 0; // Remove a chave
+        // Atualiza todas as ocorrências do tile 5 para 6
+        for (let i = 0; i < game.terrainMap.map.length; i++) {
+          for (let j = 0; j < game.terrainMap.map[0].length; j++) {
+            if (game.terrainMap.map[i][j] === 5) {
+              game.terrainMap.map[i][j] = 6;
+            }
+          }
+        }
       }
     },
     placeBomb: (_, { game, playerId }) => {

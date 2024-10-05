@@ -56,7 +56,7 @@ export const createTerrainMap = (level: number): Level => {
                     ___________
                     _b__b______
                     __1______bc
-                    _b___so__ck
+                    _b___ss__ck
                     __2______bc
                     _b__b______
                     ___________
