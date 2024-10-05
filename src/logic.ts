@@ -2,6 +2,7 @@ import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer"
 
 import { ROUND_DURATION } from "./constants"
 import { createExplosions } from "./helpers/Bombs"
+import { isWalkableTile } from "./helpers/Gate"
 import { createTerrainMap } from "./helpers/Levels"
 import { Bomb, Explosion, GameScreen, Level, Player, Vector } from "./types"
 
@@ -72,7 +73,7 @@ Rune.initLogic({
       const newX = player.position.x - 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap.map[player.position.y]?.[newX] === 0 || game.terrainMap.map[player.position.y]?.[newX] === 3) {
+      if (isWalkableTile(game.terrainMap.map[player.position.y]?.[newX])) {
         player.position.x = newX;
       }
     },
@@ -81,7 +82,7 @@ Rune.initLogic({
       const newX = player.position.x + 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap.map[player.position.y]?.[newX] === 0 || game.terrainMap.map[player.position.y]?.[newX] === 3) {
+      if (isWalkableTile(game.terrainMap.map[player.position.y]?.[newX])) {
         player.position.x = newX;
       }
     },
@@ -90,7 +91,7 @@ Rune.initLogic({
       const newY = player.position.y - 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap.map[newY]?.[player.position.x] === 0 || game.terrainMap.map[newY]?.[player.position.x] === 3) {
+      if (isWalkableTile(game.terrainMap.map[newY]?.[player.position.x])) {
         player.position.y = newY;
       }
     },
@@ -99,7 +100,7 @@ Rune.initLogic({
       const newY = player.position.y + 1;
       
       // Verificar se o novo local no terreno é 0 (pisável)
-      if (game.terrainMap.map[newY]?.[player.position.x] === 0 || game.terrainMap.map[newY]?.[player.position.x] === 3) {
+      if (isWalkableTile(game.terrainMap.map[newY]?.[player.position.x])) {
         player.position.y = newY;
       }
     },

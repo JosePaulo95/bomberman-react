@@ -3,6 +3,7 @@ import { ExplosionsLayer } from "@/components/pixi/ExplosionsLayer";
 import { GroundLayer } from "@/components/pixi/GroundLayer"; // Importando o novo componente
 import { InputLayer } from "@/components/pixi/InputLayer";
 import { PlayerLayer } from "@/components/pixi/PlayerLayer";
+import { isWalkableTile } from "@/helpers/Gate";
 import { Pixi } from "@/helpers/Pixi";
 import { useGameStore } from "@/store/useGameStore";
 import { Vector } from "@/types";
@@ -61,19 +62,19 @@ export function Play() {
 
               <InputLayer x={centralPos.x} y={centralPos.y} onClick={() => handlePlaceBombClick()} />
               
-              {(terrainMap.map[player.y - 1]?.[player.x] === 0 || terrainMap.map[player.y - 1]?.[player.x] === 3) && (
+              {(isWalkableTile(terrainMap.map[player.y - 1]?.[player.x])) && (
                 <InputLayer x={centralPos.x} y={centralPos.y - 1} onClick={() => handleSpriteClick("up")} />
               )}
               
-              {(terrainMap.map[player.y + 1]?.[player.x] === 0 || terrainMap.map[player.y + 1]?.[player.x] === 3) && (
+              {(isWalkableTile(terrainMap.map[player.y + 1]?.[player.x])) && (
                 <InputLayer x={centralPos.x} y={centralPos.y + 1} onClick={() => handleSpriteClick("down")} />
               )}
               
-              {(terrainMap.map[player.y]?.[player.x - 1] === 0 || terrainMap.map[player.y]?.[player.x - 1] === 3) && (
+              {(isWalkableTile(terrainMap.map[player.y]?.[player.x - 1])) && (
                 <InputLayer x={centralPos.x - 1} y={centralPos.y} onClick={() => handleSpriteClick("left")} />
               )}
               
-              {(terrainMap.map[player.y]?.[player.x + 1] === 0 || terrainMap.map[player.y]?.[player.x + 1] === 3) && (
+              {(isWalkableTile(terrainMap.map[player.y]?.[player.x + 1])) && (
                 <InputLayer x={centralPos.x + 1} y={centralPos.y} onClick={() => handleSpriteClick("right")} />
               )}
             </Container>
