@@ -79,7 +79,22 @@ function load() {
       src: "./explosion_0.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
+    {
+      alias: "key",
+      src: "./GoldKey.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "closed_gate",
+      src: "./closed_gate.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "opened_gate",
+      src: "./down_stairs.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
   ])
 
-  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "bomb_0_a", "bomb_0_b", "explosion_0","input_0"])
+  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "bomb_0_a", "bomb_0_b", "explosion_0","input_0", "key","closed_gate","opened_gate"])
 }

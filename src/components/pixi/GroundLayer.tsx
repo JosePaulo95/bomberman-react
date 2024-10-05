@@ -20,6 +20,12 @@ const getTexturesForTile = (tileValue: number): Texture[] => {
       return [Texture.from(`crate_0`)]; // destrutivel
     case 3:
       return [Texture.from(`player_0`), Texture.from(`crate_0`), Texture.from(`ground_0`), Texture.from(`crate_0`)]; // destrutivel
+    case 4:
+      return [Texture.from(`key`)];
+    case 5:
+      return [Texture.from(`closed_gate`)];
+    case 6:
+      return [Texture.from(`opened_gate`)];
     default:
       return [Texture.from(`ground_0`)]; // na dúvida é chao
   }

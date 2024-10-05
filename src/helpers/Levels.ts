@@ -36,6 +36,9 @@ function convertStringMapToArray2D(map: string): number[][] {
             if (char === '_') return 0; // Se for '__', substitui por 0
             if (char === 'b') return 1; // Se for 'b', substitui por 1
             if (char === 'c') return 2; // Se for 'b', substitui por 1
+            if (char === 'k') return 4; // Se for 'b', substitui por 1
+            if (char === 's') return 5; // Se for 'b', substitui por 1
+            if (char === 'o') return 6; // Se for 'b', substitui por 1
             // Qualquer outro caractere substitui por 0
             return 0;
         })
@@ -53,7 +56,7 @@ export const createTerrainMap = (level: number): Level => {
                     ___________
                     _b__b______
                     __1______bc
-                    _b___ss__ck
+                    _b___so__ck
                     __2______bc
                     _b__b______
                     ___________
