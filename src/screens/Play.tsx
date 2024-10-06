@@ -1,6 +1,7 @@
 import { BombsLayer } from "@/components/pixi/BombsLayer";
 import { ExplosionsLayer } from "@/components/pixi/ExplosionsLayer";
 import { GroundLayer } from "@/components/pixi/GroundLayer"; // Importando o novo componente
+import { HUDLayer } from "@/components/pixi/HUDLayer";
 import { InputLayer } from "@/components/pixi/InputLayer";
 import { PlayerLayer } from "@/components/pixi/PlayerLayer";
 import { isWalkableTile } from "@/helpers/Gate";
@@ -77,6 +78,7 @@ export function Play() {
               {(isWalkableTile(terrainMap.map[player.y]?.[player.x + 1])) && (
                 <InputLayer x={centralPos.x + 1} y={centralPos.y} onClick={() => handleSpriteClick("right")} />
               )}
+              <HUDLayer remainingLife={1} maxLifes={3} />
             </Container>
         }
 

@@ -24,7 +24,7 @@ export const InputLayer: React.FC<InputLayerProps> = ({ onClick, x, y }) => {
     top: `${y * tileSize*responFactor}px`,
     width: `${tileSize*responFactor}px`,
     height: `${tileSize*responFactor}px`,
-    background: "red",
+    background: "transparent",
     border: "none",
     cursor: "pointer",
     zIndex: 1, // Garante que o botão fique acima da Sprite

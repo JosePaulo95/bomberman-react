@@ -94,7 +94,17 @@ function load() {
       src: "./down_stairs.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
+    {
+      alias: "fullheart",
+      src: "./fullheart.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "emptyheart",
+      src: "./emptyheart.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
   ])
 
-  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "bomb_0_a", "bomb_0_b", "explosion_0","input_0", "key","closed_gate","opened_gate"])
+  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "bomb_0_a", "bomb_0_b", "explosion_0","input_0", "key","closed_gate","opened_gate", "fullheart", "emptyheart"])
 }
