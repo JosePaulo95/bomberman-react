@@ -1,15 +1,13 @@
-import { Level } from "@/types";
+import { Level, Vector } from "@/types";
 
 function makeSquareMatrix(matrix: number[][]): number[][] {
     const numRows = matrix.length;
     const numCols = Math.max(...matrix.map(row => row.length)); // Encontra o número máximo de colunas
 
-    // Se o número de linhas e colunas for o mesmo, já é quadrada
     if (numRows === numCols) {
         return matrix;
     }
 
-    // Para cada linha que estiver menor, adiciona 0s no final para completar
     const squareMatrix = matrix.map(row => {
         const newRow = [...row];
         while (newRow.length < numCols) {
@@ -18,7 +16,6 @@ function makeSquareMatrix(matrix: number[][]): number[][] {
         return newRow;
     });
 
-    // Adiciona linhas cheias de 0 até ficar quadrada
     while (squareMatrix.length < numCols) {
         squareMatrix.push(new Array(numCols).fill(0)); // Adiciona uma linha de 0s
     }
@@ -26,33 +23,38 @@ function makeSquareMatrix(matrix: number[][]): number[][] {
     return squareMatrix;
 }
 
-function convertStringMapToArray2D(map: string): number[][] {
+function convertStringMapToArray2D(map: string) {
     const emojiMap: { [key: string]: number } = {
         '⬛': 0,  // Caixa cinza
-        '🟦': 1,  // parede
-        '⬜': 2,  // bloco quebravel
+        '🟦': 1,  // Parede
+        '⬜': 2,  // Bloco quebrável
         '🔑': 4,  // Chave
         '🟨': 6,  // Porta
     };
 
-    // Remove espaços extras e divide a string em linhas
+    const playerPositions: Vector[] = [];
     const lines = map.trim().split('\n');
 
-    // Mapeia cada linha para um array de números
-    const result = lines.map(line => 
-        Array.from(line.trim()).map(char => emojiMap[char] || 0)
+    const result = lines.map((line, rowIndex) => 
+        Array.from(line.trim()).map((char, colIndex) => {
+            if (char === '👨' || char === '👩') {
+                playerPositions.push({ x: rowIndex, y: colIndex });
+                return 0; // O jogador não altera o terreno
+            }
+            return emojiMap[char] || 0;
+        })
     );
-    debugger;
-    return makeSquareMatrix(result);
+
+    return {
+        map: makeSquareMatrix(result),
+        playerPositions
+    };
 }
 
 export const createTerrainMap = (level: number): Level => {
     switch (level) {
         case 1:
-            // Terreno misturado
-            return {
-                level: 1,
-                map: convertStringMapToArray2D(`
+            const level1Data = convertStringMapToArray2D(`
                 ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
                 ⬛🟦⬛⬛🟦⬛⬛⬛⬛⬛⬛
                 ⬛⬛👨⬛⬛⬛⬛⬛⬛🟦⬜
@@ -60,13 +62,14 @@ export const createTerrainMap = (level: number): Level => {
                 ⬛⬛👩⬛⬛⬛⬛⬛⬛🟦⬜
                 ⬛🟦⬛⬛🟦⬛⬛⬛⬛⬛⬛
                 ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
-                `)
-            }
-        case 2:
-            // Terreno misturado
+            `);
             return {
-                level: 2,
-                map: convertStringMapToArray2D(`
+                level: 1,
+                map: level1Data.map,
+                playerPositions: level1Data.playerPositions
+            };
+        case 2:
+            const level2Data = convertStringMapToArray2D(`
                 👨⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
                 ⬛🟦⬛🟦⬛🟦⬛🟦⬛🟦⬛
                 ⬛⬛⬜⬛⬜⬛⬜⬛⬜⬛⬛
@@ -76,13 +79,14 @@ export const createTerrainMap = (level: number): Level => {
                 ⬛⬛⬜⬛⬜⬛⬜⬛⬜⬛⬛
                 ⬛🟦⬛🟦⬛🟦⬛🟦⬛🟦⬛
                 👩⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
-                `)
-            }
-        default:
-            // Terreno padrão, todo 0
+            `);
             return {
-                level: 0,
-                map: convertStringMapToArray2D(`
+                level: 2,
+                map: level2Data.map,
+                playerPositions: level2Data.playerPositions
+            };
+        default:
+            const defaultLevelData = convertStringMapToArray2D(`
                 ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
                 ⬛🟦⬛⬛🟦⬛⬛⬛⬛⬛⬛
                 ⬛⬛👨⬛⬛⬛⬛⬛⬛🟦⬜
@@ -90,7 +94,11 @@ export const createTerrainMap = (level: number): Level => {
                 ⬛⬛👩⬛⬛⬛⬛⬛⬛🟦⬜
                 ⬛🟦⬛⬛🟦⬛⬛⬛⬛⬛⬛
                 ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
-                `)
-            }
+            `);
+            return {
+                level: 0,
+                map: defaultLevelData.map,
+                playerPositions: defaultLevelData.playerPositions
+            };
     }
 }
