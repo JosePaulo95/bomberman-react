@@ -27,7 +27,6 @@ type GameActions = {
   placeBomb: () => void
   destroyCrateAt: (pos: Vector) => void
   stop: () => void
-  checkKeyCollection: (coord: Vector) => void
 }
 
 declare global {
@@ -97,7 +96,8 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        debugger;
+        game.currentLevelIndex++
+        game.currentScreen = "lobby"
       }
     },
     moveRight: (_, { game, playerId }) => {
@@ -121,7 +121,8 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        debugger;
+        game.currentLevelIndex++
+        game.currentScreen = "lobby"
       }
     },
     moveUp: (_, { game, playerId }) => {
@@ -145,7 +146,8 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        debugger;
+        game.currentLevelIndex++
+        game.currentScreen = "lobby"
       }
     },
     moveDown: (_, { game, playerId }) => {
@@ -170,22 +172,8 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        debugger;
-      }
-    },
-    checkKeyCollection: (coord: Vector, { game, playerId }) => {
-      const tile = game.terrainMap.map[coord.y]?.[coord.x];
-    
-      if (tile === 4) {
-        game.terrainMap.map[coord.y][coord.x] = 0; // Remove a chave
-        // Atualiza todas as ocorrências do tile 5 para 6
-        for (let i = 0; i < game.terrainMap.map.length; i++) {
-          for (let j = 0; j < game.terrainMap.map[0].length; j++) {
-            if (game.terrainMap.map[i][j] === 5) {
-              game.terrainMap.map[i][j] = 6;
-            }
-          }
-        }
+        game.currentLevelIndex++
+        game.currentScreen = "lobby"
       }
     },
     placeBomb: (_, { game, playerId }) => {
