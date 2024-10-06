@@ -78,7 +78,7 @@ export function Play() {
               {(isWalkableTile(terrainMap.map[player.y]?.[player.x + 1])) && (
                 <InputLayer x={centralPos.x + 1} y={centralPos.y} onClick={() => handleSpriteClick("right")} />
               )}
-              <HUDLayer remainingLife={1} maxLifes={3} />
+              <HUDLayer remainingLife={players[yourPlayerId].remainingLife} maxLifes={players[yourPlayerId].maxLifes} />
             </Container>
         }
 

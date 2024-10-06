@@ -45,8 +45,8 @@ Rune.initLogic({
           ...acc,
           [id]: {
             position: { x: 1, y: 1 },
-            direction: { x: 0, y: 0 },
-            velocity: { x: 0, y: 0 },
+            remainingLife: 3,
+            maxLifes: 3,
             facing: "left",
             state: "standing",
             ready: false,
@@ -209,15 +209,14 @@ Rune.initLogic({
     },
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
-      game.players[playerId].direction.x = 0
     },
   },
   events: {
     playerJoined: (playerId, { game }) => {
       game.players[playerId] = {
         position: { x: 0, y: 0 },
-        direction: { x: 0, y: 0 },
-        velocity: { x: 0, y: 0 },
+        maxLifes: 3,
+        remainingLife: 3,
         facing: "left",
         state: "standing",
         ready: false,

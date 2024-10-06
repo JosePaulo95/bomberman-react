@@ -11,8 +11,8 @@ export type Vector = {
 
 export type Player = {
   position: Vector
-  velocity: Vector
-  direction: Vector
+  remainingLife: number
+  maxLifes: number
   facing: "left" | "right"
   state: "standing" | "walking"
   ready: boolean
