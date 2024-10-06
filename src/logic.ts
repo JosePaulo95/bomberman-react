@@ -30,6 +30,7 @@ type GameActions = {
   destroyCrateAt: (pos: Vector) => void
   killPlayer: (pos: Vector) => void
   moveMonster: ({index, direction}: {index: number, direction: Vector}) => void
+  killMonster: (index:number) => void
   stop: () => void
 }
 
@@ -253,6 +254,10 @@ Rune.initLogic({
         game.monsters[index].pos.x = newPosition.x;
         game.monsters[index].pos.y = newPosition.y;
     },  
+    killMonster: (index: number, { game, playerId }) => {
+      game.monsters[index].pos.x = 0
+      game.monsters[index].pos.y = 1
+    },  
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
     },
@@ -309,6 +314,17 @@ Rune.initLogic({
           // game.terrainMap.map[explosions[i].pos.y][explosions[i].pos.x] = 0
         }
         Rune.actions.killPlayer({x: explosions[i].pos.x, y: explosions[i].pos.y})
+        
+        for (let j = game.monsters.length - 1; j >= 0; j--) { // Loop reverso para evitar problemas ao remover elementos
+          const monster = game.monsters[j];
+          // Verifica se o monstro ainda existe e se a posição coincide com a explosão
+          if (monster.pos.x === explosions[i].pos.x && monster.pos.y === explosions[i].pos.y) {
+            Rune.actions.killMonster(j)
+            // game.monsters[j].pos.x = 0
+            // game.monsters[j].pos.y = 1
+            // Remove o monstro se houver colisão com a explosão
+          }
+        }
       }
 
       //descobre as bombas q permanecem no mapa

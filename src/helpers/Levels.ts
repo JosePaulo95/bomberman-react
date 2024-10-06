@@ -66,7 +66,7 @@ function convertStringMapToArray2D(map: string) {
                 playerPositions.push({ x: colIndex+2, y: rowIndex+2 });
                 return 0; // O jogador não altera o terreno
             } else if (char === '👹') { // Adiciona monstro
-                monsters.push({ type: 1, pos: { x: colIndex+2, y: rowIndex+2 } });
+                monsters.push({ type: 1, lastMoveTime:0, moveInterval: 1000, pos: { x: colIndex+2, y: rowIndex+2 }, direction: { x: 0, y: 0 }});
                 return 0; // O monstro também não altera o terreno
             }
             return emojiMap[char] || 0;

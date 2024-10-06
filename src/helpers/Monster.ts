@@ -19,7 +19,11 @@ const isValidDirection = (monster: Monster, direction: Vector, game: GameState):
         otherMonster.pos.x === newX && otherMonster.pos.y === newY
     );
 
-    return isWithinBounds && isNotWall && hasNoMonsterInIt;
+    const hasNoBombInIt = !game.bombsMap.some(bomb =>
+        bomb.pos.x === newX && bomb.pos.y === newY
+    );
+
+    return isWithinBounds && isNotWall && hasNoMonsterInIt && hasNoBombInIt;
 };
 
 export const applyMonsterStrategy = (monster: Monster, game: GameState): Vector => {
