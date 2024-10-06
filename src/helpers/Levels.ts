@@ -53,7 +53,7 @@ function convertStringMapToArray2D(map: string) {
         '🟦': 1,  // Parede
         '⬜': 2,  // Bloco quebrável
         '🔑': 4,  // Chave
-        '🟨': 6,  // Porta
+        '🟨': 5,  // Porta
     };
 
     const playerPositions: Vector[] = [];
