@@ -14,15 +14,17 @@ export const InputLayer: React.FC<InputLayerProps> = ({ onClick, x, y }) => {
   // Carregar a textura (pode ser personalizada conforme o contexto)
   const inputTexture = Texture.from(`input_0`); // Exemplo de textura
   const tileSize = 16;
+  const responFactor = window.innerWidth/85.125;
+  // const factor = responFactor*12
   // const scale = 3
   // Estilo para o botão ocupar toda a área da sprite
   const buttonStyle = {
     position: "absolute" as const,
-    left: `${x * tileSize*8}px`,
-    top: `${y * tileSize*8}px`,
-    width: `${tileSize*8}px`,
-    height: `${tileSize*8}px`,
-    background: "transparent",
+    left: `${x * tileSize*responFactor}px`,
+    top: `${y * tileSize*responFactor}px`,
+    width: `${tileSize*responFactor}px`,
+    height: `${tileSize*responFactor}px`,
+    background: "red",
     border: "none",
     cursor: "pointer",
     zIndex: 1, // Garante que o botão fique acima da Sprite
