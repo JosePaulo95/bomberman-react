@@ -14,6 +14,8 @@ export type GameState = {
   terrainMap: Level
   bombsMap: Bomb[]
   explosions: Explosion[]
+  totalLevels: number
+  currentLevelIndex: number
 }
 
 type GameActions = {
@@ -54,6 +56,8 @@ Rune.initLogic({
         {} as Record<PlayerId, Player>,
       ),
       currentScreen: "lobby",
+      totalLevels: 5,
+      currentLevelIndex: 1,
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
       terrainMap: createTerrainMap(1),
@@ -285,6 +289,7 @@ Rune.initLogic({
 })
 
 function startGame(game: GameState) {
-  game.currentScreen = "play"
+  // game.currentScreen = "play"
+  game.currentScreen = "levelTransition"
   game.gameStartedAt = Rune.gameTime()
 }
