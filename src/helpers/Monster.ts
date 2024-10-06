@@ -31,16 +31,29 @@ export const applyMonsterStrategy = (monster: Monster, game: GameState): Vector 
         { x: 1, y: 0 }   // Direita
     ];
 
-    // Filtrar as direções válidas
-    const validDirections = directions.filter(d => isValidDirection(monster, d, game));
+    // Verificar se a direção atual do monstro ainda é válida
+    if (isValidDirection(monster, monster.direction, game) && (monster.direction.x!=0 || monster.direction.y!=0) ) {
+        // Se a direção atual é válida, continua se movendo nela
+        return monster.direction;
+    } else {
+        // Se a direção atual é inválida, sorteia uma nova direção válida
+        const validDirections = directions.filter(d => isValidDirection(monster, d, game));
 
-    // Se houver direções válidas, escolher uma aleatoriamente
-    if (validDirections.length > 0) {
-        const randomIndex = Math.floor(Math.random() * validDirections.length);
-        return validDirections[randomIndex];
+        if (validDirections.length > 0) {
+            // Escolhe uma nova direção aleatória válida
+            const randomIndex = Math.floor(Math.random() * validDirections.length);
+            const newDirection = validDirections[randomIndex];
+            
+            // Atualiza a direção do monstro
+            monster.direction = newDirection;
+
+            // Retorna a nova direção para o movimento
+            return newDirection;
+        }
+
+        // Se não houver direções válidas, o monstro não se move
+        return { x: 0, y: 0 };
     }
-
-    // Se não houver direções válidas, o monstro não se move
-    return { x: 0, y: 0 };
 };
+
 

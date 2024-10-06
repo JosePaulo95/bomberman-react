@@ -54,4 +54,5 @@ export type Level = {
 export type Monster = {
   type: number;
   pos: Vector;
+  direction: Vector;
 }
