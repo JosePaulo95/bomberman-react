@@ -286,10 +286,19 @@ Rune.initLogic({
 
       //apply monster strategy
       for (let i = 0; i < game.monsters.length; i++) {
-        const direction = applyMonsterStrategy(game.monsters[i], game)
-        game.monsters[i].pos.x += direction.x;
-        game.monsters[i].pos.y += direction.y;
-        // Rune.actions.moveMonster({index: i, direction: direction})
+        const monster = game.monsters[i];
+
+        if (currentTime > monster.lastMoveTime + monster.moveInterval) {
+          // Aplique a estratégia do monstro e mova-o
+          const direction = applyMonsterStrategy(monster, game);
+  
+          // Movimentar o monstro
+          game.monsters[i].pos.x += direction.x;
+          game.monsters[i].pos.y += direction.y;
+  
+          // Atualize o último tempo de movimento
+          game.monsters[i].lastMoveTime = currentTime;
+        }
       }
 
       // ações das explosoes

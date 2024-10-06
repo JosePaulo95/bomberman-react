@@ -55,4 +55,6 @@ export type Monster = {
   type: number;
   pos: Vector;
   direction: Vector;
+  lastMoveTime: number;
+  moveInterval: number;
 }
