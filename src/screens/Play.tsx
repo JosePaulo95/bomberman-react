@@ -3,6 +3,7 @@ import { ExplosionsLayer } from "@/components/pixi/ExplosionsLayer";
 import { GroundLayer } from "@/components/pixi/GroundLayer"; // Importando o novo componente
 import { HUDLayer } from "@/components/pixi/HUDLayer";
 import { InputLayer } from "@/components/pixi/InputLayer";
+import { MonstersLayer } from "@/components/pixi/MonstersLayer";
 import { PlayerLayer } from "@/components/pixi/PlayerLayer";
 import { isWalkableTile } from "@/helpers/Gate";
 import { Pixi } from "@/helpers/Pixi";
@@ -16,6 +17,7 @@ export function Play() {
   const yourPlayerId = useGameStore((state) => state.yourPlayerId);
   const player = yourPlayerId && useGameStore((state) => state.game.players[yourPlayerId].position)
   const players = useGameStore((state) => state.game.players)
+  const monsters = useGameStore((state) => state.game.monsters)
   const terrainMap = useGameStore((state) => state.game.terrainMap)
   const bombsMap = useGameStore((state) => state.game.bombsMap)
   const explosionsList = useGameStore((state) => state.game.explosions)
@@ -59,6 +61,7 @@ export function Play() {
               { bombsMap && <BombsLayer data={bombsMap} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
 
               <PlayerLayer data={{ ...player, ...centralPos }} />
+              <MonstersLayer data={monsters} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />
               { bombsMap && <ExplosionsLayer data={explosionsList} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />}
 
               <InputLayer x={centralPos.x} y={centralPos.y} onClick={() => handlePlaceBombClick()} />

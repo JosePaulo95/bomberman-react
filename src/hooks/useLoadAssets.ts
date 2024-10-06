@@ -104,7 +104,17 @@ function load() {
       src: "./emptyheart.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
+    {
+      alias: "monster_0_a",
+      src: "./monster_0_a.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_b",
+      src: "./monster_0_b.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
   ])
 
-  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "bomb_0_a", "bomb_0_b", "explosion_0","input_0", "key","closed_gate","opened_gate", "fullheart", "emptyheart"])
+  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "bomb_0_a", "bomb_0_b", "explosion_0","input_0", "key","closed_gate","opened_gate", "fullheart", "emptyheart", "monster_0_a", "monster_0_b"])
 }

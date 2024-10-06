@@ -4,10 +4,11 @@ import { ROUND_DURATION } from "./constants"
 import { createExplosions } from "./helpers/Bombs"
 import { isWalkableTile } from "./helpers/Gate"
 import { createTerrainMap } from "./helpers/Levels"
-import { Bomb, Explosion, GameScreen, Level, Player, Vector } from "./types"
+import { Bomb, Explosion, GameScreen, Level, Monster, Player, Vector } from "./types"
 
 export type GameState = {
   players: Record<PlayerId, Player>
+  monsters: Monster[]
   currentScreen: GameScreen
   timeLeft: number
   gameStartedAt: number
@@ -62,6 +63,7 @@ Rune.initLogic({
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
       terrainMap: createTerrainMap(1),
+      monsters: [],
       bombsMap: [],
       explosions: [],
     }
@@ -133,6 +135,7 @@ Rune.initLogic({
           game.players[player].position = level.playerPositions[index]
           game.players[player].initialPos = level.playerPositions[index]
         })
+        game.monsters = level.monsters
         game.terrainMap = level
         game.currentLevelIndex++
       }
@@ -331,6 +334,7 @@ function startGame(game: GameState) {
   Object.keys(game.players).forEach((player, index) => {
     game.players[player].position = level.playerPositions[index]
   })
+  game.monsters = level.monsters
   game.terrainMap = level
   game.currentScreen = "play"
   

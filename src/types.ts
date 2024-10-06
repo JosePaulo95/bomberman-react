@@ -48,4 +48,10 @@ export type Level = {
   map: number[][];
   level: number;
   playerPositions: Vector[];
+  monsters: Monster[];
+}
+
+export type Monster = {
+  type: number;
+  pos: Vector;
 }
