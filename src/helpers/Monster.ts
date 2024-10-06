@@ -13,7 +13,7 @@ const isValidDirection = (monster: Monster, direction: Vector, game: GameState):
     );
 
     // Verificar se a nova posição não é uma parede (assumindo que 1 é uma parede no mapa)
-    const isNotWall = game.terrainMap.map[newY][newX] !== 1;
+    const isNotWall = ![1,2].includes(game.terrainMap.map[newY][newX])
 
     const hasNoMonsterInIt = !game.monsters.some(otherMonster =>
         otherMonster.pos.x === newX && otherMonster.pos.y === newY
