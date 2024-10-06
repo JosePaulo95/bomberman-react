@@ -13,6 +13,7 @@ export type Player = {
   position: Vector
   remainingLife: number
   maxLifes: number
+  initialPos: Vector
   facing: "left" | "right"
   state: "standing" | "walking"
   ready: boolean

@@ -57,9 +57,9 @@ export function Play() {
             <Container width={window.innerWidth*factor} height={window.innerWidth*factor} position={{ x: 0, y: 0 }}>
               { terrainMap && <GroundLayer index={terrainMap.level} floor={terrainMap.map} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
               { bombsMap && <BombsLayer data={bombsMap} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
-              { bombsMap && <ExplosionsLayer data={explosionsList} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />}
 
               <PlayerLayer data={{ ...player, ...centralPos }} />
+              { bombsMap && <ExplosionsLayer data={explosionsList} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />}
 
               <InputLayer x={centralPos.x} y={centralPos.y} onClick={() => handlePlaceBombClick()} />
               

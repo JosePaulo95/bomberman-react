@@ -26,6 +26,7 @@ type GameActions = {
   moveDown: () => void
   placeBomb: () => void
   destroyCrateAt: (pos: Vector) => void
+  killPlayer: (pos: Vector) => void
   stop: () => void
 }
 
@@ -47,6 +48,7 @@ Rune.initLogic({
             position: { x: 1, y: 1 },
             remainingLife: 3,
             maxLifes: 3,
+            initialPos: { x: 1, y: 1 },
             facing: "left",
             state: "standing",
             ready: false,
@@ -96,7 +98,12 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        game.terrainMap = createTerrainMap(game.currentLevelIndex+1)
+        const level = createTerrainMap(game.currentLevelIndex+1)
+        Object.keys(game.players).forEach((player, index) => {
+          game.players[player].position = level.playerPositions[index]
+          game.players[player].initialPos = level.playerPositions[index]
+        })
+        game.terrainMap = level
         game.currentLevelIndex++
       }
     },
@@ -124,6 +131,7 @@ Rune.initLogic({
         const level = createTerrainMap(game.currentLevelIndex+1)
         Object.keys(game.players).forEach((player, index) => {
           game.players[player].position = level.playerPositions[index]
+          game.players[player].initialPos = level.playerPositions[index]
         })
         game.terrainMap = level
         game.currentLevelIndex++
@@ -153,6 +161,7 @@ Rune.initLogic({
         const level = createTerrainMap(game.currentLevelIndex+1)
         Object.keys(game.players).forEach((player, index) => {
           game.players[player].position = level.playerPositions[index]
+          game.players[player].initialPos = level.playerPositions[index]
         })
         game.terrainMap = level
         game.currentLevelIndex++
@@ -182,6 +191,7 @@ Rune.initLogic({
         const level = createTerrainMap(game.currentLevelIndex+1)
         Object.keys(game.players).forEach((player, index) => {
           game.players[player].position = level.playerPositions[index]
+          game.players[player].initialPos = level.playerPositions[index]
         })
         game.terrainMap = level
         game.currentLevelIndex++
@@ -202,11 +212,29 @@ Rune.initLogic({
       })
     },
     destroyCrateAt: (pos: Vector, { game, playerId }) => {
-      if(game.terrainMap.map[pos.y][pos.x] == 2){
+      // if(game.terrainMap.map[pos.y][pos.x] == 2){
         game.terrainMap.map[pos.y][pos.x] = 0
         // game.terrainMap[pos.y][pos.x] = 3
-      }
+      // }
     },
+    killPlayer: (pos: Vector, { game, playerId }) => {
+      Object.keys(game.players).forEach(id => {
+        const player = game.players[id];
+    
+        // Verifica se o jogador está na posição da explosão
+        if (player.position.x === pos.x && player.position.y === pos.y) {
+          
+          // Se a vida restante for 1 ou menos, encerra o jogo
+          if (player.remainingLife <= 1) {
+            Rune.gameOver();
+          } else {
+            // Caso contrário, reposiciona o jogador e reduz a vida
+            player.position = player.initialPos;
+            player.remainingLife--;
+          }
+        }
+      });
+    },    
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
     },
@@ -217,6 +245,7 @@ Rune.initLogic({
         position: { x: 0, y: 0 },
         maxLifes: 3,
         remainingLife: 3,
+        initialPos: { x: 0, y: 0 },
         facing: "left",
         state: "standing",
         ready: false,
@@ -237,15 +266,23 @@ Rune.initLogic({
       const currentTime = Rune.gameTime(); // Usa o tempo do jogo
       const explosions = game.explosions
 
-      // destrutiveis que colidem com explosao sao apagados
+      // ações das explosoes
       for (let i = 0; i < explosions.length; i++) {
-        Rune.actions.destroyCrateAt({x: explosions[i].pos.x, y: explosions[i].pos.y})
+        // Rune.actions.destroyCrateAt({x: explosions[i].pos.x, y: explosions[i].pos.y})
+        if(game.terrainMap.map[explosions[i].pos.y][explosions[i].pos.x] == 2){
+          Rune.actions.destroyCrateAt({x: explosions[i].pos.x, y: explosions[i].pos.y})
+          // game.terrainMap.map[explosions[i].pos.y][explosions[i].pos.x] = 0
+        }
+        Rune.actions.killPlayer({x: explosions[i].pos.x, y: explosions[i].pos.y})
       }
 
+      //descobre as bombas q permanecem no mapa
       const remain = game.bombsMap.filter(bomb => {
         const timeElapsed = currentTime - bomb.placedAt;
         return timeElapsed < bomb.timeToExplode; // Mantém só as bombas que ainda não explodiram
       });
+
+      //descobre as bombas q tao expiraram
       const exploding = game.bombsMap.filter(bomb => {
         const timeElapsed = currentTime - bomb.placedAt;
         // return timeElapsed >= bomb.timeToExplode; // Mantém só as bombas que ainda não explodiram
@@ -253,7 +290,7 @@ Rune.initLogic({
 
       });
 
-      // remove bombas q expiraram
+      // deixa só as q nao explodiram
       game.bombsMap = remain
 
       // insere explosoes nas bombas q expiraram
