@@ -1,5 +1,29 @@
 import { Level, Vector } from "@/types";
 
+function coverMatrix(matrix:number[][]) {
+    const numRows = matrix.length;
+    const numCols = matrix[0].length;
+
+    // Cria a borda de -1 com 2 linhas extras
+    const rowPadding = new Array(numCols + 4).fill(1); // 1 padding para cada lado
+    const coveredMatrix = [];
+
+    // Adiciona duas linhas de padding no topo
+    coveredMatrix.push(rowPadding);
+    coveredMatrix.push(rowPadding);
+
+    // Adiciona as linhas da matriz original com padding de 1 nas laterais
+    for (let i = 0; i < numRows; i++) {
+        coveredMatrix.push([1, 1, ...matrix[i], 1, 1]);
+    }
+
+    // Adiciona duas linhas de padding no final
+    coveredMatrix.push(rowPadding);
+    coveredMatrix.push(rowPadding);
+
+    return coveredMatrix;
+}
+
 function makeSquareMatrix(matrix: number[][]): number[][] {
     const numRows = matrix.length;
     const numCols = Math.max(...matrix.map(row => row.length)); // Encontra o número máximo de colunas
@@ -46,7 +70,7 @@ function convertStringMapToArray2D(map: string) {
     );
 
     return {
-        map: makeSquareMatrix(result),
+        map: coverMatrix(makeSquareMatrix(result)),
         playerPositions
     };
 }
