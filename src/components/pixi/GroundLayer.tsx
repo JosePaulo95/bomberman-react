@@ -1,3 +1,4 @@
+import { Html } from "@/helpers/Html";
 import { Vector } from "@/types";
 import { Texture } from "@pixi/core";
 import { AnimatedSprite } from "@pixi/react";
@@ -7,6 +8,7 @@ import React from "react";
 interface GroundLayerProps {
   floor: number[][];
   pivo: Vector;
+  index: number;
 }
 
 // Função para mapear o valor da célula para uma textura específica
@@ -32,11 +34,12 @@ const getTexturesForTile = (tileValue: number): Texture[] => {
 };
 
 // Componente GroundLayer
-export const GroundLayer: React.FC<GroundLayerProps> = ({ floor, pivo }) => {
+export const GroundLayer: React.FC<GroundLayerProps> = ({ index, floor, pivo }) => {
   const tileSize = 16; // Tamanho do tile
   
   return (
     <>
+      <Html.In>{index}</Html.In>
       {floor.map((row, rowIndex) =>
         row.map((tile, colIndex) => (
           <AnimatedSprite
