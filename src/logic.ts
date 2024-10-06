@@ -56,7 +56,7 @@ Rune.initLogic({
       ),
       currentScreen: "lobby",
       totalLevels: 5,
-      currentLevelIndex: 1,
+      currentLevelIndex: 0,
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
       terrainMap: createTerrainMap(1),
@@ -278,6 +278,22 @@ Rune.initLogic({
 
 function startGame(game: GameState) {
   // game.currentScreen = "play"
-  game.currentScreen = "levelTransition"
   game.gameStartedAt = Rune.gameTime()
+  const currentLevel = game.currentLevelIndex
+  if(currentLevel >= game.totalLevels){
+    Rune.gameOver({
+      players: Object.keys(game.players).reduce(
+        (acc, playerId) => {
+          acc[playerId] = "WON"
+          return acc
+        },
+        {} as Record<PlayerId, "WON" | "LOST">,
+      ),
+      delayPopUp: true,
+    })
+  }else{
+    game.terrainMap = createTerrainMap(currentLevel+1)
+    game.currentLevelIndex++
+    game.currentScreen = "play"
+  }
 }
