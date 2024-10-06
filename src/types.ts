@@ -45,4 +45,5 @@ export type Explosion = {
 
 export type Level = {
   map: number[][];
+  level: number;
 }
