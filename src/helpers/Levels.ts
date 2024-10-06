@@ -73,7 +73,6 @@ function convertStringMapToArray2D(map: string) {
         })
     );
 
-    debugger;
     return {
         map: coverMatrix(makeSquareMatrix(result)),
         playerPositions,
@@ -87,9 +86,9 @@ export const createTerrainMap = (level: number): Level => {
             const level1Data = convertStringMapToArray2D(`
                 👹⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
                 ⬛🟦⬛👹🟦⬛⬛⬛⬛⬛⬛
-                ⬛⬛👨👹⬛⬛⬛⬛⬛🟦⬜
-                ⬛🟦⬛👹⬛🟨🟨⬛⬛⬜🔑
-                ⬛⬛👩⬛⬛⬛⬛⬛⬛🟦⬜
+                ⬛⬛👨⬛👹⬛⬛⬛⬛🟦⬜
+                ⬛🟦⬛⬛⬛🟨🟨⬛⬛⬜🔑
+                ⬛⬛👩👹⬛⬛⬛⬛⬛🟦⬜
                 ⬛🟦⬛⬛🟦⬛⬛⬛⬛⬛⬛
                 ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
             `);

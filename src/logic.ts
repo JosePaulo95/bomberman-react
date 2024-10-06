@@ -4,6 +4,7 @@ import { ROUND_DURATION } from "./constants"
 import { createExplosions } from "./helpers/Bombs"
 import { isWalkableTile } from "./helpers/Gate"
 import { createTerrainMap } from "./helpers/Levels"
+import { applyMonsterStrategy } from "./helpers/Monster"
 import { Bomb, Explosion, GameScreen, Level, Monster, Player, Vector } from "./types"
 
 export type GameState = {
@@ -28,6 +29,7 @@ type GameActions = {
   placeBomb: () => void
   destroyCrateAt: (pos: Vector) => void
   killPlayer: (pos: Vector) => void
+  moveMonster: ({index, direction}: {index: number, direction: Vector}) => void
   stop: () => void
 }
 
@@ -237,7 +239,20 @@ Rune.initLogic({
           }
         }
       });
-    },    
+    },
+    moveMonster: ({index, direction}, { game, playerId }) => {
+        // Pega o monstro pelo índice
+        const monster = game.monsters[index];
+    
+        // Atualiza a posição do monstro com base na direção fornecida
+        const newPosition = {
+            x: monster.pos.x + direction.x,
+            y: monster.pos.y + direction.y
+        };
+
+        game.monsters[index].pos.x = newPosition.x;
+        game.monsters[index].pos.y = newPosition.y;
+    },  
     stop: (_, { game, playerId }) => {
       game.players[playerId].state = "standing"
     },
@@ -268,6 +283,14 @@ Rune.initLogic({
     if (game.currentScreen === "play") {
       const currentTime = Rune.gameTime(); // Usa o tempo do jogo
       const explosions = game.explosions
+
+      //apply monster strategy
+      for (let i = 0; i < game.monsters.length; i++) {
+        const direction = applyMonsterStrategy(game.monsters[i], game)
+        game.monsters[i].pos.x += direction.x;
+        game.monsters[i].pos.y += direction.y;
+        // Rune.actions.moveMonster({index: i, direction: direction})
+      }
 
       // ações das explosoes
       for (let i = 0; i < explosions.length; i++) {
