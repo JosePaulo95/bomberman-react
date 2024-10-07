@@ -435,21 +435,6 @@ Rune.initLogic({
           }
         }
       }
-
-      // game.timeLeft = ROUND_DURATION - (Rune.gameTime() - game.gameStartedAt)
-      if (1>2 && game.timeLeft <= 0) {
-        game.currentScreen = "gameOver"
-        Rune.gameOver({
-          players: Object.keys(game.players).reduce(
-            (acc, playerId) => {
-              acc[playerId] = "WON"
-              return acc
-            },
-            {} as Record<PlayerId, "WON" | "LOST">,
-          ),
-          delayPopUp: true,
-        })
-      }
     }
   },
   updatesPerSecond: 10,
