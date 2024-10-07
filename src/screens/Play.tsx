@@ -10,6 +10,7 @@ import { Pixi } from "@/helpers/Pixi";
 import { useGameStore } from "@/store/useGameStore";
 import { Vector } from "@/types";
 import { Container } from "@pixi/react";
+import { useEffect, useRef, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 export function Play() {
@@ -51,23 +52,63 @@ export function Play() {
 
   const responFactor = 0.1875;
   const factor = responFactor*terrainMap.map[0].length
+
+  const [interpolatedPosition, setInterpolatedPosition] = useState({ x: 0, y: 0 });
+  const previousPositionRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (!yourPlayerId) return; // Certifique-se de que o jogador está definido
+
+    const player = players[yourPlayerId]?.position;
+
+    if (!player) return;
+
+    // Inicia a interpolação
+    const duration = 200; // Duração da interpolação em milissegundos
+    const startTime = performance.now();
+    const startPosition = previousPositionRef.current;
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const t = Math.min(elapsed / duration, 1); // Normaliza entre 0 e 1
+      const easeOutQuad = (t:number) => t * (2 - t);
+      // Aplique a função de easing
+      const easedT = easeOutQuad(t);
+    
+      // Interpolação com easing
+      const newX = startPosition.x + (player.x - startPosition.x) * easedT;
+      const newY = startPosition.y + (player.y - startPosition.y) * easedT;
+    
+      setInterpolatedPosition({ x: newX, y: newY });
+    
+      if (t < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        previousPositionRef.current = { x: player.x, y: player.y }; // Atualiza a posição anterior
+      }
+    };    
+
+    requestAnimationFrame(animate);
+  }, [players, yourPlayerId]);
+
+
   return (
     <div>
       <Pixi.In>
         {
           player && 
             <Container width={window.innerWidth*factor} height={window.innerWidth*factor} position={{ x: 0, y: 0 }}>
-              { terrainMap && <GroundLayer index={terrainMap.level} floor={terrainMap.map} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
-              { bombsMap && <BombsLayer data={bombsMap} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
+              { terrainMap && <GroundLayer index={terrainMap.level} floor={terrainMap.map} pivo={{x: interpolatedPosition.x-centralPos.x, y: interpolatedPosition.y-centralPos.y}}/>}
+              { bombsMap && <BombsLayer data={bombsMap} pivo={{x: interpolatedPosition.x-centralPos.x, y: interpolatedPosition.y-centralPos.y}}/>}
 
               <PlayerLayer data={{ ...player, ...centralPos }} />
               {Object.keys(players)
               .filter((id) => id !== yourPlayerId) // Filtra os outros jogadores
               .map((id, index) => {
-                return <PlayerLayer data={{...players[id], x:players[id].position.x-player.x+centralPos.x, y:players[id].position.y-player.y+centralPos.y}} />;
+                return <PlayerLayer data={{...players[id], x:players[id].position.x-interpolatedPosition.x+centralPos.x, y:players[id].position.y-interpolatedPosition.y+centralPos.y}} />;
               })}
-              <MonstersLayer data={monsters} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />
-              { bombsMap && <ExplosionsLayer data={explosionsList} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />}
+              <MonstersLayer data={monsters} pivo={{x: interpolatedPosition.x-centralPos.x, y: interpolatedPosition.y-centralPos.y}} />
+              { bombsMap && <ExplosionsLayer data={explosionsList} pivo={{x: interpolatedPosition.x-centralPos.x, y: interpolatedPosition.y-centralPos.y}} />}
 
               <InputLayer x={centralPos.x} y={centralPos.y} onClick={() => handlePlaceBombClick()} iconAlias="bomb_icon"/>
               
