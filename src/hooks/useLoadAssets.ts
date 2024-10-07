@@ -105,16 +105,103 @@ function load() {
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
     {
-      alias: "monster_0_a",
-      src: "./monster_0_a.png",
+      alias: "monster_0_down_0",
+      src: "./monster_0/down/tile000.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
     {
-      alias: "monster_0_b",
-      src: "./monster_0_b.png",
+      alias: "monster_0_down_1",
+      src: "./monster_0/down/tile001.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_down_2",
+      src: "./monster_0/down/tile002.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_down_3",
+      src: "./monster_0/down/tile003.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_left_0",
+      src: "./monster_0/left/tile000.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_left_1",
+      src: "./monster_0/left/tile001.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_left_2",
+      src: "./monster_0/left/tile002.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_left_3",
+      src: "./monster_0/left/tile003.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_up_0",
+      src: "./monster_0/up/tile000.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_up_1",
+      src: "./monster_0/up/tile001.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_up_2",
+      src: "./monster_0/up/tile002.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_up_3",
+      src: "./monster_0/up/tile003.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_right_0",
+      src: "./monster_0/right/tile000.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_right_1",
+      src: "./monster_0/right/tile001.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_right_2",
+      src: "./monster_0/right/tile002.png",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "monster_0_right_3",
+      src: "./monster_0/right/tile003.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
   ])
 
-  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "bomb_0_a", "bomb_0_b", "explosion_0","input_0", "key","closed_gate","opened_gate", "fullheart", "emptyheart", "monster_0_a", "monster_0_b"])
+  return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "bomb_0_a", "bomb_0_b", "explosion_0","input_0", "key","closed_gate","opened_gate", "fullheart", "emptyheart",
+  "monster_0_down_0",
+  "monster_0_down_1",
+  "monster_0_down_2",
+  "monster_0_down_3",
+  "monster_0_left_0",
+  "monster_0_left_1",
+  "monster_0_left_2",
+  "monster_0_left_3",
+  "monster_0_up_0",
+  "monster_0_up_1",
+  "monster_0_up_2",
+  "monster_0_up_3",
+  "monster_0_right_0",
+  "monster_0_right_1",
+  "monster_0_right_2",
+  "monster_0_right_3",
+  ])
 }

@@ -54,7 +54,7 @@ Rune.initLogic({
             position: { x: 1, y: 1 },
             remainingLife: 3,
             maxLifes: 3,
-            initialPos: { x: 4, y: 4 },
+            initialPos: { x: 4, y: 5},
             facing: "left",
             state: "standing",
             ready: false,
@@ -64,7 +64,7 @@ Rune.initLogic({
       ),
       currentScreen: "lobby",
       totalLevels: 5,
-      currentLevelIndex: 1,
+      currentLevelIndex: 5,
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
       terrainMap: createTerrainMap(1),
@@ -380,7 +380,7 @@ Rune.initLogic({
 function startGame(game: GameState) {
   // game.currentScreen = "play"
   game.gameStartedAt = Rune.gameTime()
-  const level = createTerrainMap(1)
+  const level = createTerrainMap(game.currentLevelIndex)
   Object.keys(game.players).forEach((player, index) => {
     game.players[player].position = level.playerPositions[index]
   })

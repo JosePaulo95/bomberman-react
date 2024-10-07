@@ -45,7 +45,7 @@ export const createExplosions = (bomb: Bomb, game: GameState): Explosion[] => {
       y: bomb.pos.y
     },
     createdAt: currentTime,
-    duration: 1000, // Duração da explosão
+    duration: 200, // Duração da explosão
   });
 
   // Direções da explosão (cima, baixo, esquerda, direita)
@@ -72,7 +72,7 @@ export const createExplosions = (bomb: Bomb, game: GameState): Explosion[] => {
       explosions.push({
         pos: explosionPos,
         createdAt: currentTime,
-        duration: 1000, // Duração da explosão
+        duration: 200, // Duração da explosão
       });
 
       // Checa colisão com paredes destrutíveis
