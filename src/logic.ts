@@ -29,7 +29,7 @@ type GameActions = {
   moveDown: () => void
   placeBomb: () => void
   destroyCrateAt: (pos: Vector) => void
-  killPlayer: (pos: Vector) => void
+  killPlayer: (id: string) => void
   moveMonster: ({index, direction}: {index: number, direction: Vector}) => void
   killMonster: (index:number) => void
   stop: () => void
@@ -64,7 +64,7 @@ Rune.initLogic({
       ),
       currentScreen: "lobby",
       totalLevels: 5,
-      currentLevelIndex: 5,
+      currentLevelIndex: 3,
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
       terrainMap: createTerrainMap(1),
@@ -225,13 +225,13 @@ Rune.initLogic({
         // game.terrainMap[pos.y][pos.x] = 3
       // }
     },
-    killPlayer: (pos: Vector, { game, playerId }) => {
-      if (game.players[playerId].remainingLife < 1) {
+    killPlayer: (id: string, { game, playerId }) => {
+      if (game.players[id].remainingLife < 1) {
         Rune.gameOver();
       } else {
         // Caso contrário, reposiciona o jogador e reduz a vida
-        game.players[playerId].position = game.players[playerId].initialPos;
-        game.players[playerId].remainingLife--;
+        game.players[id].position = game.players[id].initialPos;
+        game.players[id].remainingLife--;
       }
     },
     moveMonster: ({index, direction}, { game, playerId }) => {
@@ -313,7 +313,7 @@ Rune.initLogic({
       
           // Verifica se o jogador está na posição da explosão
           if (player.position.x === explosions[i].pos.x && player.position.y === explosions[i].pos.y) {
-            Rune.actions.killPlayer({x: explosions[i].pos.x, y: explosions[i].pos.y})
+            Rune.actions.killPlayer(id)
           }
         })
         
@@ -357,6 +357,18 @@ Rune.initLogic({
         const timeElapsed = currentTime - explosion.createdAt;
         return timeElapsed < explosion.duration; // Mantém só as bombas que ainda não explodiram
       });
+
+      const playersids = Object.keys(game.players)
+      for (let i = 0; i < game.monsters.length; i++) {
+        for (let j = 0; j < playersids.length; j++) {
+          if(
+            game.players[playersids[j]].position.x == game.monsters[i].pos.x &&
+            game.players[playersids[j]].position.y == game.monsters[i].pos.y
+          ) {
+            Rune.actions.killPlayer(playersids[j])
+          }
+        }
+      }
 
       // game.timeLeft = ROUND_DURATION - (Rune.gameTime() - game.gameStartedAt)
       if (1>2 && game.timeLeft <= 0) {
