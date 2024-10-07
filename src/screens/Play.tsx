@@ -48,7 +48,6 @@ export function Play() {
     x: 2,
     y: 4
   }
-  const playerIndex = Object.keys(players).indexOf(yourPlayerId); // Encontra o índice do jogador atual
 
   const responFactor = 0.1875;
   const factor = responFactor*terrainMap.map[0].length
