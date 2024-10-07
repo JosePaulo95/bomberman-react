@@ -64,7 +64,7 @@ Rune.initLogic({
       ),
       currentScreen: "lobby",
       totalLevels: 5,
-      currentLevelIndex: 0,
+      currentLevelIndex: 1,
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
       terrainMap: createTerrainMap(1),
