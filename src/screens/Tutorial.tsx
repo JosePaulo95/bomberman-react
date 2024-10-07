@@ -42,11 +42,11 @@ export function Tutorial () {
             muted
             controls={false}
           />
-          {isSkippingAllowed && (
+          {/* {isSkippingAllowed && ( */}
             <button onClick={skipTutorial} style={{ position: 'absolute', top: '10px', right: '10px' }}>
               {">>"}
             </button>
-          )}
+          {/* )} */}
         </>
       )}
     </div>

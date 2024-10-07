@@ -53,8 +53,8 @@ Rune.initLogic({
           ...acc,
           [id]: {
             position: { x: 1, y: 1 },
-            remainingLife: 3,
-            maxLifes: 3,
+            remainingLife: 4,
+            maxLifes: 4,
             initialPos: { x: 4, y: 5},
             facing: "left",
             state: "standing",
@@ -64,7 +64,7 @@ Rune.initLogic({
         {} as Record<PlayerId, Player>,
       ),
       currentScreen: "lobby",
-      totalLevels: 5,
+      totalLevels: 1,
       currentLevelIndex: 1,
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
@@ -102,7 +102,6 @@ Rune.initLogic({
             if(game.terrainMap.map[i][j] == 5){
               game.terrainMap.map[i][j] = 6
             }
-            
           }
         }
       }
@@ -110,8 +109,28 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        game.currentLevelIndex++
-        startGame(game)
+        if(game.currentLevelIndex >= game.totalLevels){
+          const players = Object.keys(game.players)
+          if(players.length == 1){
+            Rune.gameOver({
+              players: {
+                [players[0]]: "WON",  // Jogador 1
+              },
+            });
+          }
+          if(players.length == 2){
+            Rune.gameOver({
+              players: {
+                [players[0]]: "WON",  // Jogador 1
+                [players[1]]: "WON",  // Jogador 1
+              },
+            });
+          }
+        }else{
+          game.currentLevelIndex++
+          startGame(game)
+        }
+
         // const level = createTerrainMap(game.currentLevelIndex+1)
         // Object.keys(game.players).forEach((player, index) => {
         //   game.players[player].position = level.playerPositions[index]
@@ -141,8 +160,27 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        game.currentLevelIndex++
-        startGame(game)
+        if(game.currentLevelIndex >= game.totalLevels){
+          const players = Object.keys(game.players)
+          if(players.length == 1){
+            Rune.gameOver({
+              players: {
+                [players[0]]: "WON",  // Jogador 1
+              },
+            });
+          }
+          if(players.length == 2){
+            Rune.gameOver({
+              players: {
+                [players[0]]: "WON",  // Jogador 1
+                [players[1]]: "WON",  // Jogador 1
+              },
+            });
+          }
+        }else{
+          game.currentLevelIndex++
+          startGame(game)
+        }
       }
     },
     moveUp: (_, { game, playerId }) => {
@@ -166,8 +204,27 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        game.currentLevelIndex++
-        startGame(game)
+        if(game.currentLevelIndex >= game.totalLevels){
+          const players = Object.keys(game.players)
+          if(players.length == 1){
+            Rune.gameOver({
+              players: {
+                [players[0]]: "WON",  // Jogador 1
+              },
+            });
+          }
+          if(players.length == 2){
+            Rune.gameOver({
+              players: {
+                [players[0]]: "WON",  // Jogador 1
+                [players[1]]: "WON",  // Jogador 1
+              },
+            });
+          }
+        }else{
+          game.currentLevelIndex++
+          startGame(game)
+        }
       }
     },
     moveDown: (_, { game, playerId }) => {
@@ -191,8 +248,27 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        game.currentLevelIndex++
-        startGame(game)
+        if(game.currentLevelIndex >= game.totalLevels){
+          const players = Object.keys(game.players)
+          if(players.length == 1){
+            Rune.gameOver({
+              players: {
+                [players[0]]: "WON",  // Jogador 1
+              },
+            });
+          }
+          if(players.length == 2){
+            Rune.gameOver({
+              players: {
+                [players[0]]: "WON",  // Jogador 1
+                [players[1]]: "WON",  // Jogador 1
+              },
+            });
+          }
+        }else{
+          game.currentLevelIndex++
+          startGame(game)
+        }
       }
     },
     placeBomb: (_, { game, playerId }) => {
