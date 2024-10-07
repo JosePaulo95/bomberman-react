@@ -39,7 +39,7 @@ export const InputLayer: React.FC<InputLayerProps> = ({ onClick, iconAlias, x, y
         texture={inputTexture}
         position={{ x: x * tileSize, y: y * tileSize }} // Posiciona no grid
         scale={0.5}
-        alpha={levelIndex==1? 0.7:0.2}
+        alpha={levelIndex==1? 0.5:0.15}
         visible={true}
       />
       <Html.In>
