@@ -1,9 +1,9 @@
 import { useInitClient } from "./hooks/useInitClient.ts"
 import { useLoadAssets } from "./hooks/useLoadAssets.ts"
 import { GameOver } from "./screens/GameOver.tsx"
-import { LevelTransition } from "./screens/LevelTransition.tsx"
 import { Lobby } from "./screens/Lobby.tsx"
 import { Play } from "./screens/Play.tsx"
+import { Tutorial } from "./screens/Tutorial.tsx"
 import { useGameStore } from "./store/useGameStore.ts"
 import { GameScreen } from "./types.ts"
 
@@ -25,7 +25,7 @@ const SCREEN: Record<GameScreen, () => React.JSX.Element> = {
   lobby: Lobby,
   play: Play,
   gameOver: GameOver,
-  levelTransition: LevelTransition,
+  tutorial: Tutorial,
 }
 
 export default App

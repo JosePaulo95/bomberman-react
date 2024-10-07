@@ -23,7 +23,7 @@ export type PlayersInterpolators = {
   [playerId: PlayerId]: { position: { x: Interpolator<number> } }
 }
 
-export type GameScreen = "lobby" | "play" | "levelTransition" | "gameOver"
+export type GameScreen = "lobby" | "play" | "tutorial" | "gameOver"
 
 export enum CharacterModel {
   PinkGuy,

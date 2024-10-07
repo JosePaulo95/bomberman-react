@@ -23,6 +23,7 @@ export type GameState = {
 
 type GameActions = {
   ready: () => void
+  tutorialEnded: () => void
   moveLeft: () => void
   moveRight: () => void
   moveUp: () => void
@@ -64,7 +65,7 @@ Rune.initLogic({
       ),
       currentScreen: "lobby",
       totalLevels: 5,
-      currentLevelIndex: 3,
+      currentLevelIndex: 1,
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,
       terrainMap: createTerrainMap(1),
@@ -78,10 +79,12 @@ Rune.initLogic({
       game.players[playerId].ready = true
 
       if (Object.values(game.players).every((player) => player.ready)) {
-        startGame(game)
+        game.currentScreen = "tutorial"
       }
     },
-
+    tutorialEnded: (_, { game, playerId }) => {
+      startGame(game)
+    },
     moveLeft: (_, { game, playerId }) => {
       const player = game.players[playerId];
       const newX = player.position.x - 1;
@@ -400,5 +403,4 @@ function startGame(game: GameState) {
   game.terrainMap = level
   game.currentScreen = "play"
   game.explodedBombs_ = []
-  
 }

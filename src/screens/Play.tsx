@@ -46,7 +46,7 @@ export function Play() {
   }
   const centralPos: Vector = {
     x: 2,
-    y: 4
+    y: 5
   }
 
   const responFactor = 0.1875;
