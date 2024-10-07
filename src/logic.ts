@@ -54,7 +54,7 @@ Rune.initLogic({
             position: { x: 1, y: 1 },
             remainingLife: 3,
             maxLifes: 3,
-            initialPos: { x: 1, y: 1 },
+            initialPos: { x: 4, y: 4 },
             facing: "left",
             state: "standing",
             ready: false,
