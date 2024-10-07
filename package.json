@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@pixi/react": "^7.1.2",
+    "howler": "^2.2.4",
+    "pixi": "^0.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rune-games-sdk": "^4.16.0",

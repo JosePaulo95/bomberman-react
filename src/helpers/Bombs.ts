@@ -1,3 +1,4 @@
+import { playSound } from "@/hooks/soundManager";
 import { GameState } from "@/logic";
 import { Bomb, Explosion, Vector } from "@/types";
 
@@ -35,6 +36,7 @@ const shouldStopOnDestructible = (pos: Vector, game: GameState) => {
 };
 
 export const createExplosions = (bomb: Bomb, game: GameState): Explosion[] => {
+  playSound("bomb")
   const currentTime = Rune.gameTime();
   const explosions: Explosion[] = [];
 

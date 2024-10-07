@@ -135,3 +135,7 @@ export function Play() {
     </div>
   );
 }
+function playSound(arg0: string) {
+  throw new Error("Function not implemented.");
+}
+

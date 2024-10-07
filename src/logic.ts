@@ -5,6 +5,7 @@ import { createExplosions } from "./helpers/Bombs"
 import { isWalkableTile } from "./helpers/Gate"
 import { createTerrainMap } from "./helpers/Levels"
 import { applyMonsterStrategy } from "./helpers/Monster"
+import { playSound } from "./hooks/soundManager"
 import { Bomb, Explosion, GameScreen, Level, Monster, Player, Vector } from "./types"
 
 export type GameState = {
@@ -44,7 +45,7 @@ declare global {
 
 Rune.initLogic({
   minPlayers: 1,
-  maxPlayers: 2,
+  maxPlayers: 1,
   setup: (allPlayerIds): GameState => {
     return {
       explodedBombs_: [],
@@ -96,6 +97,7 @@ Rune.initLogic({
         player.position.x = newX;
       }
       if(game.terrainMap.map[player.position.y]?.[newX] == 4){
+        playSound("key")
         game.terrainMap.map[player.position.y][newX] = 0;
         for (let i = 0; i < game.terrainMap.map.length; i++) {
           for (let j = 0; j < game.terrainMap.map[0].length; j++) {
@@ -109,6 +111,7 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
+        playSound("nextLevel")
         if(game.currentLevelIndex >= game.totalLevels){
           const players = Object.keys(game.players)
           if(players.length == 1){
@@ -148,6 +151,7 @@ Rune.initLogic({
         player.position.x = newX;
       }
       if(game.terrainMap.map[player.position.y]?.[newX] == 4){
+        playSound("key")
         game.terrainMap.map[player.position.y][newX] = 0
         for (let i = 0; i < game.terrainMap.map.length; i++) {
           for (let j = 0; j < game.terrainMap.map[0].length; j++) {
@@ -160,6 +164,7 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
+        playSound("nextLevel")
         if(game.currentLevelIndex >= game.totalLevels){
           const players = Object.keys(game.players)
           if(players.length == 1){
@@ -192,6 +197,7 @@ Rune.initLogic({
         player.position.y = newY;
       }
       if(game.terrainMap.map[newY]?.[player.position.x] == 4){
+        playSound("key")
         game.terrainMap.map[newY][player.position.x] = 0
         for (let i = 0; i < game.terrainMap.map.length; i++) {
           for (let j = 0; j < game.terrainMap.map[0].length; j++) {
@@ -204,6 +210,7 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
+        playSound("nextLevel")
         if(game.currentLevelIndex >= game.totalLevels){
           const players = Object.keys(game.players)
           if(players.length == 1){
@@ -236,6 +243,7 @@ Rune.initLogic({
         player.position.y = newY;
       }
       if(game.terrainMap.map[newY]?.[player.position.x] == 4){
+        playSound("key")
         game.terrainMap.map[newY][player.position.x] = 0;
         for (let i = 0; i < game.terrainMap.map.length; i++) {
           for (let j = 0; j < game.terrainMap.map[0].length; j++) {
@@ -248,6 +256,7 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
+        playSound("nextLevel")
         if(game.currentLevelIndex >= game.totalLevels){
           const players = Object.keys(game.players)
           if(players.length == 1){
@@ -296,6 +305,7 @@ Rune.initLogic({
         Rune.gameOver();
       } else {
         // Caso contrário, reposiciona o jogador e reduz a vida
+        playSound('kill');
         game.players[id].position = game.players[id].initialPos;
         game.players[id].remainingLife--;
       }
