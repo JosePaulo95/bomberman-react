@@ -9,6 +9,7 @@ import { Bomb, Explosion, GameScreen, Level, Monster, Player, Vector } from "./t
 
 export type GameState = {
   players: Record<PlayerId, Player>
+  explodedBombs_: string[]
   monsters: Monster[]
   currentScreen: GameScreen
   timeLeft: number
@@ -38,13 +39,14 @@ declare global {
   const Rune: RuneClient<GameState, GameActions>
 }
 
-let explodedBombs_ = new Set(); // Usando um Set para garantir que não haja duplicatas
+// let explodedBombs_ = new Set(); // Usando um Set para garantir que não haja duplicatas
 
 Rune.initLogic({
   minPlayers: 1,
   maxPlayers: 1,
   setup: (allPlayerIds): GameState => {
     return {
+      explodedBombs_: [],
       players: allPlayerIds.reduce(
         (acc, id, i) => ({
           ...acc,
@@ -224,22 +226,13 @@ Rune.initLogic({
       // }
     },
     killPlayer: (pos: Vector, { game, playerId }) => {
-      Object.keys(game.players).forEach(id => {
-        const player = game.players[id];
-    
-        // Verifica se o jogador está na posição da explosão
-        if (player.position.x === pos.x && player.position.y === pos.y) {
-          
-          // Se a vida restante for 1 ou menos, encerra o jogo
-          if (player.remainingLife <= 1) {
-            Rune.gameOver();
-          } else {
-            // Caso contrário, reposiciona o jogador e reduz a vida
-            player.position = player.initialPos;
-            player.remainingLife--;
-          }
-        }
-      });
+      if (game.players[playerId].remainingLife < 1) {
+        Rune.gameOver();
+      } else {
+        // Caso contrário, reposiciona o jogador e reduz a vida
+        game.players[playerId].position = game.players[playerId].initialPos;
+        game.players[playerId].remainingLife--;
+      }
     },
     moveMonster: ({index, direction}, { game, playerId }) => {
         // Pega o monstro pelo índice
@@ -313,7 +306,16 @@ Rune.initLogic({
           Rune.actions.destroyCrateAt({x: explosions[i].pos.x, y: explosions[i].pos.y})
           // game.terrainMap.map[explosions[i].pos.y][explosions[i].pos.x] = 0
         }
-        Rune.actions.killPlayer({x: explosions[i].pos.x, y: explosions[i].pos.y})
+
+        //checa colisao com jogadores
+        Object.keys(game.players).forEach(id => {
+          const player = game.players[id];
+      
+          // Verifica se o jogador está na posição da explosão
+          if (player.position.x === explosions[i].pos.x && player.position.y === explosions[i].pos.y) {
+            Rune.actions.killPlayer({x: explosions[i].pos.x, y: explosions[i].pos.y})
+          }
+        })
         
         for (let j = game.monsters.length - 1; j >= 0; j--) { // Loop reverso para evitar problemas ao remover elementos
           const monster = game.monsters[j];
@@ -337,7 +339,7 @@ Rune.initLogic({
       const exploding = game.bombsMap.filter(bomb => {
         const timeElapsed = currentTime - bomb.placedAt;
         // return timeElapsed >= bomb.timeToExplode; // Mantém só as bombas que ainda não explodiram
-        return timeElapsed >= bomb.timeToExplode && !explodedBombs_.has(`${bomb.pos.x}-${bomb.pos.y}-${bomb.placedAt}`); // Verifica se já explodiu
+        return timeElapsed >= bomb.timeToExplode && !game.explodedBombs_.find(str => str==`${bomb.pos.x}-${bomb.pos.y}-${bomb.placedAt}`); // Verifica se já explodiu
 
       });
 
@@ -347,7 +349,7 @@ Rune.initLogic({
       // insere explosoes nas bombas q expiraram
       exploding.forEach(b => {
         game.explosions = explosions.concat(createExplosions(b, game))
-        explodedBombs_.add(`${b.pos.x}-${b.pos.y}-${b.placedAt}`); // Adiciona ao Set
+        game.explodedBombs_.push(`${b.pos.x}-${b.pos.y}-${b.placedAt}`); // Adiciona ao Set
       })
       
       //remove explosoes q expiraram
@@ -385,5 +387,6 @@ function startGame(game: GameState) {
   game.monsters = level.monsters
   game.terrainMap = level
   game.currentScreen = "play"
+  game.explodedBombs_ = []
   
 }
