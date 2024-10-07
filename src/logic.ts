@@ -80,6 +80,8 @@ Rune.initLogic({
 
       if (Object.values(game.players).every((player) => player.ready)) {
         game.currentScreen = "tutorial"
+        // game.currentScreen = "play"
+        // startGame(game)
       }
     },
     tutorialEnded: (_, { game, playerId }) => {
@@ -108,13 +110,14 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        const level = createTerrainMap(game.currentLevelIndex+1)
-        Object.keys(game.players).forEach((player, index) => {
-          game.players[player].position = level.playerPositions[index]
-          game.players[player].initialPos = level.playerPositions[index]
-        })
-        game.terrainMap = level
         game.currentLevelIndex++
+        startGame(game)
+        // const level = createTerrainMap(game.currentLevelIndex+1)
+        // Object.keys(game.players).forEach((player, index) => {
+        //   game.players[player].position = level.playerPositions[index]
+        //   game.players[player].initialPos = level.playerPositions[index]
+        // })
+        // game.terrainMap = level
       }
     },
     moveRight: (_, { game, playerId }) => {
@@ -138,14 +141,8 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        const level = createTerrainMap(game.currentLevelIndex+1)
-        Object.keys(game.players).forEach((player, index) => {
-          game.players[player].position = level.playerPositions[index]
-          game.players[player].initialPos = level.playerPositions[index]
-        })
-        game.monsters = level.monsters
-        game.terrainMap = level
         game.currentLevelIndex++
+        startGame(game)
       }
     },
     moveUp: (_, { game, playerId }) => {
@@ -169,13 +166,8 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        const level = createTerrainMap(game.currentLevelIndex+1)
-        Object.keys(game.players).forEach((player, index) => {
-          game.players[player].position = level.playerPositions[index]
-          game.players[player].initialPos = level.playerPositions[index]
-        })
-        game.terrainMap = level
         game.currentLevelIndex++
+        startGame(game)
       }
     },
     moveDown: (_, { game, playerId }) => {
@@ -199,13 +191,8 @@ Rune.initLogic({
       if(Object.keys(game.players).every(id => 
         game.terrainMap.map[game.players[id].position.y][game.players[id].position.x] == 6
       )){
-        const level = createTerrainMap(game.currentLevelIndex+1)
-        Object.keys(game.players).forEach((player, index) => {
-          game.players[player].position = level.playerPositions[index]
-          game.players[player].initialPos = level.playerPositions[index]
-        })
-        game.terrainMap = level
         game.currentLevelIndex++
+        startGame(game)
       }
     },
     placeBomb: (_, { game, playerId }) => {
