@@ -44,7 +44,7 @@ declare global {
 
 Rune.initLogic({
   minPlayers: 1,
-  maxPlayers: 1,
+  maxPlayers: 2,
   setup: (allPlayerIds): GameState => {
     return {
       explodedBombs_: [],
@@ -64,7 +64,7 @@ Rune.initLogic({
         {} as Record<PlayerId, Player>,
       ),
       currentScreen: "lobby",
-      totalLevels: 1,
+      totalLevels: 5,
       currentLevelIndex: 1,
       timeLeft: ROUND_DURATION,
       gameStartedAt: Infinity,

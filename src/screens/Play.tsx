@@ -46,8 +46,9 @@ export function Play() {
   }
   const centralPos: Vector = {
     x: 2,
-    y: 5
+    y: 4
   }
+  const playerIndex = Object.keys(players).indexOf(yourPlayerId); // Encontra o índice do jogador atual
 
   const responFactor = 0.1875;
   const factor = responFactor*terrainMap.map[0].length
@@ -61,6 +62,11 @@ export function Play() {
               { bombsMap && <BombsLayer data={bombsMap} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}}/>}
 
               <PlayerLayer data={{ ...player, ...centralPos }} />
+              {Object.keys(players)
+              .filter((id) => id !== yourPlayerId) // Filtra os outros jogadores
+              .map((id, index) => {
+                return <PlayerLayer data={{...players[id], x:players[id].position.x-player.x+centralPos.x, y:players[id].position.y-player.y+centralPos.y}} />;
+              })}
               <MonstersLayer data={monsters} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />
               { bombsMap && <ExplosionsLayer data={explosionsList} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />}
 
@@ -85,12 +91,6 @@ export function Play() {
             </Container>
         }
 
-        {Object.keys(players)
-        .filter((id) => id !== yourPlayerId) // Filtra os outros jogadores
-        .map((id) => {
-          const otherPlayer = players[id].position;
-          return <PlayerLayer key={id} data={otherPlayer} />;
-        })}
       </Pixi.In>
     </div>
   );
