@@ -64,22 +64,22 @@ export function Play() {
               <MonstersLayer data={monsters} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />
               { bombsMap && <ExplosionsLayer data={explosionsList} pivo={{x: player.x-centralPos.x, y: player.y-centralPos.y}} />}
 
-              <InputLayer x={centralPos.x} y={centralPos.y} onClick={() => handlePlaceBombClick()} />
+              <InputLayer x={centralPos.x} y={centralPos.y} onClick={() => handlePlaceBombClick()} iconAlias="bomb_icon"/>
               
               {(isWalkableTile(terrainMap.map[player.y - 1]?.[player.x])) && (
-                <InputLayer x={centralPos.x} y={centralPos.y - 1} onClick={() => handleSpriteClick("up")} />
+                <InputLayer x={centralPos.x} y={centralPos.y - 1} onClick={() => handleSpriteClick("up")} iconAlias="arrow_n"/>
               )}
               
               {(isWalkableTile(terrainMap.map[player.y + 1]?.[player.x])) && (
-                <InputLayer x={centralPos.x} y={centralPos.y + 1} onClick={() => handleSpriteClick("down")} />
+                <InputLayer x={centralPos.x} y={centralPos.y + 1} onClick={() => handleSpriteClick("down")} iconAlias="arrow_s"/>
               )}
               
               {(isWalkableTile(terrainMap.map[player.y]?.[player.x - 1])) && (
-                <InputLayer x={centralPos.x - 1} y={centralPos.y} onClick={() => handleSpriteClick("left")} />
+                <InputLayer x={centralPos.x - 1} y={centralPos.y} onClick={() => handleSpriteClick("left")} iconAlias="arrow_w"/>
               )}
               
               {(isWalkableTile(terrainMap.map[player.y]?.[player.x + 1])) && (
-                <InputLayer x={centralPos.x + 1} y={centralPos.y} onClick={() => handleSpriteClick("right")} />
+                <InputLayer x={centralPos.x + 1} y={centralPos.y} onClick={() => handleSpriteClick("right")} iconAlias="arrow_e"/>
               )}
               <HUDLayer remainingLife={players[yourPlayerId].remainingLife} maxLifes={players[yourPlayerId].maxLifes} />
             </Container>

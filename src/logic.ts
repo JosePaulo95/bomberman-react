@@ -226,7 +226,7 @@ Rune.initLogic({
       // }
     },
     killPlayer: (id: string, { game, playerId }) => {
-      if (game.players[id].remainingLife < 1) {
+      if (game.players[id].remainingLife <= 1) {
         Rune.gameOver();
       } else {
         // Caso contrário, reposiciona o jogador e reduz a vida

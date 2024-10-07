@@ -184,6 +184,31 @@ function load() {
       src: "./monster_0/right/tile003.png",
       data: { scaleMode: SCALE_MODES.NEAREST },
     },
+    {
+      alias: "arrow_e",
+      src: "./hud/arrow_e.svg",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "arrow_n",
+      src: "./hud/arrow_n.svg",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "arrow_s",
+      src: "./hud/arrow_s.svg",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "arrow_w",
+      src: "./hud/arrow_w.svg",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
+    {
+      alias: "bomb_icon",
+      src: "./hud/tool_bomb.svg",
+      data: { scaleMode: SCALE_MODES.NEAREST },
+    },
   ])
 
   return Assets.load(["character_0_a", "character_0_b", "character_1_a", "character_1_b", "ground_0", "block_0", "crate_0", "player_0", "bomb_0_a", "bomb_0_b", "explosion_0","input_0", "key","closed_gate","opened_gate", "fullheart", "emptyheart",
@@ -203,5 +228,10 @@ function load() {
   "monster_0_right_1",
   "monster_0_right_2",
   "monster_0_right_3",
+  "arrow_e",
+  "arrow_n",
+  "arrow_s",
+  "arrow_w",
+  "bomb_icon",
   ])
 }

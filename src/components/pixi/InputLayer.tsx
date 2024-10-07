@@ -1,4 +1,5 @@
 import { Html } from "@/helpers/Html";
+import { useGameStore } from "@/store/useGameStore";
 import { Texture } from "@pixi/core";
 import { Sprite } from "@pixi/react";
 import React from "react";
@@ -6,13 +7,15 @@ import React from "react";
 // Definindo os tipos das props
 interface InputLayerProps {
   onClick: () => void;
+  iconAlias: string;
   x: number; // Coordenada x (em tiles)
   y: number; // Coordenada y (em tiles)
 }
 
-export const InputLayer: React.FC<InputLayerProps> = ({ onClick, x, y }) => {
+export const InputLayer: React.FC<InputLayerProps> = ({ onClick, iconAlias, x, y }) => {
+  const levelIndex = useGameStore((state) => state.game.currentLevelIndex)
   // Carregar a textura (pode ser personalizada conforme o contexto)
-  const inputTexture = Texture.from(`input_0`); // Exemplo de textura
+  const inputTexture = Texture.from(iconAlias); // Exemplo de textura
   const tileSize = 16;
   const responFactor = window.innerWidth/85.125;
   // const factor = responFactor*12
@@ -35,7 +38,9 @@ export const InputLayer: React.FC<InputLayerProps> = ({ onClick, x, y }) => {
       <Sprite
         texture={inputTexture}
         position={{ x: x * tileSize, y: y * tileSize }} // Posiciona no grid
-        scale={1}
+        scale={0.5}
+        alpha={levelIndex==1? 0.7:0.2}
+        visible={true}
       />
       <Html.In>
         <button style={buttonStyle} onClick={onClick}></button>
